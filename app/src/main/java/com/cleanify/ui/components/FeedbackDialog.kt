@@ -155,7 +155,7 @@ enum class FeedbackType(
     )
 }
 
-private const val DEVELOPER_WHATSAPP_NUMBER = "919621272014"
+private const val DEVELOPER_WHATSAPP_NUMBER = "8801637360712"
 private const val DEVELOPER_TELEGRAM_HANDLE = "ug_5711"
 
 private val RANDOM_NAMES = listOf(
@@ -166,10 +166,14 @@ private val RANDOM_NAMES = listOf(
 fun FeedbackDialog(
     appVersion: String,
     initialType: FeedbackType = FeedbackType.GENERAL,
+    whatsappNumberOverride: String = "",
     onDismiss: () -> Unit,
     onNavigateToSettings: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
+    val activeWhatsappNumber = remember(whatsappNumberOverride) {
+        whatsappNumberOverride.filter { it.isDigit() }.ifBlank { DEVELOPER_WHATSAPP_NUMBER }
+    }
     var selectedType by remember { mutableStateOf(initialType) }
     var senderName by remember { mutableStateOf("") }
     var subject by remember { mutableStateOf("") }
@@ -212,7 +216,7 @@ fun FeedbackDialog(
 
     val formatMessageBody: (channel: String) -> String = { channel ->
         buildString {
-            appendLine("📋 *Cleanify User Feedback*")
+            appendLine("📋 *Rony Clean Phone User Feedback*")
             appendLine("━━━━━━━━━━━━━━━━━━━")
             appendLine("🏷️ *Category:* ${selectedType.tag}")
             if (senderName.isNotBlank()) {
@@ -278,7 +282,7 @@ fun FeedbackDialog(
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "Help us improve Cleanify",
+                            text = "Help us improve Rony Clean Phone",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -611,7 +615,7 @@ fun FeedbackDialog(
                             type = "image/*"
                             putExtra(Intent.EXTRA_STREAM, preparedUris.first())
                             putExtra(Intent.EXTRA_TEXT, fullText)
-                            putExtra("jid", "$DEVELOPER_WHATSAPP_NUMBER@s.whatsapp.net")
+                            putExtra("jid", "$activeWhatsappNumber@s.whatsapp.net")
                             setPackage("com.whatsapp")
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         }
@@ -620,7 +624,7 @@ fun FeedbackDialog(
                             type = "image/*"
                             putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(preparedUris))
                             putExtra(Intent.EXTRA_TEXT, fullText)
-                            putExtra("jid", "$DEVELOPER_WHATSAPP_NUMBER@s.whatsapp.net")
+                            putExtra("jid", "$activeWhatsappNumber@s.whatsapp.net")
                             setPackage("com.whatsapp")
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         }
@@ -635,13 +639,13 @@ fun FeedbackDialog(
                             onDismiss()
                         } catch (e2: Exception) {
                             val encoded = URLEncoder.encode(fullText, "UTF-8")
-                            val url = "https://wa.me/$DEVELOPER_WHATSAPP_NUMBER?text=$encoded"
+                            val url = "https://wa.me/$activeWhatsappNumber?text=$encoded"
                             try {
                                 context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                                 onDismiss()
                             } catch (e3: Exception) {
                                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                clipboard.setPrimaryClip(ClipData.newPlainText("Cleanify Feedback", fullText))
+                                clipboard.setPrimaryClip(ClipData.newPlainText("Rony Clean Phone Feedback", fullText))
                                 Toast.makeText(context, "Feedback copied to clipboard! Open WhatsApp to send.", Toast.LENGTH_LONG).show()
                                 onDismiss()
                             }
@@ -649,7 +653,7 @@ fun FeedbackDialog(
                     }
                 } else {
                     val encoded = URLEncoder.encode(fullText, "UTF-8")
-                    val url = "https://wa.me/$DEVELOPER_WHATSAPP_NUMBER?text=$encoded"
+                    val url = "https://wa.me/$activeWhatsappNumber?text=$encoded"
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
                         setPackage("com.whatsapp")
                     }

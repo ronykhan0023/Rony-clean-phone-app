@@ -17,6 +17,9 @@
 
 package com.cleanify.ui
 
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Storage
@@ -46,8 +49,9 @@ fun MainApp(
     windowSizeClass: WindowSizeClass
 ) {
     val appNavController = rememberNavController()
+    val context = LocalContext.current
     val isOnboardingCompleted by viewModel.isOnboardingCompleted.collectAsStateWithLifecycle()
-    var hasAllFilesAccess by remember { mutableStateOf(PermissionManager.hasAllFilesAccess()) }
+    var hasAllFilesAccess by remember { mutableStateOf(PermissionManager.hasAllFilesAccess(context)) }
     var justGrantedAccess by remember { mutableStateOf(false) }
 
     // This observer will re-check the permission when the app is resumed.
@@ -56,7 +60,7 @@ fun MainApp(
         val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
             if (event == androidx.lifecycle.Lifecycle.Event.ON_RESUME) {
                 val oldState = hasAllFilesAccess
-                val newState = PermissionManager.hasAllFilesAccess()
+                val newState = PermissionManager.hasAllFilesAccess(context)
                 hasAllFilesAccess = newState
                 if (!oldState && newState) {
                     justGrantedAccess = true // Set a one-time flag that we just got permission
@@ -69,41 +73,56 @@ fun MainApp(
         }
     }
 
-    when (isOnboardingCompleted) {
-        null -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
-        }
-        true -> {
-            if (hasAllFilesAccess) {
-                val startDestination = if (justGrantedAccess) {
-                    Screen.SessionSetup.createRoute(forceRefresh = true)
-                } else {
-                    Screen.SessionSetup.createRoute(forceRefresh = false)
-                }
-
-                AppNavigation(
-                    navController = appNavController,
-                    windowSizeClass = windowSizeClass,
-                    startDestination = startDestination
-                )
-
-                // After the composition that uses the flag, reset it.
-                LaunchedEffect(justGrantedAccess) {
-                    if (justGrantedAccess) {
-                        justGrantedAccess = false
+    Column(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            when (isOnboardingCompleted) {
+                null -> {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
                     }
                 }
-            } else {
-                PermissionRequiredScreen()
+                true -> {
+                    if (hasAllFilesAccess) {
+                        val startDestination = if (justGrantedAccess) {
+                            Screen.SessionSetup.createRoute(forceRefresh = true)
+                        } else {
+                            Screen.SessionSetup.createRoute(forceRefresh = false)
+                        }
+
+                        AppNavigation(
+                            navController = appNavController,
+                            windowSizeClass = windowSizeClass,
+                            startDestination = startDestination
+                        )
+
+                        // After the composition that uses the flag, reset it.
+                        LaunchedEffect(justGrantedAccess) {
+                            if (justGrantedAccess) {
+                                justGrantedAccess = false
+                            }
+                        }
+                    } else {
+                        PermissionRequiredScreen(
+                            onPermissionGranted = {
+                                hasAllFilesAccess = true
+                                justGrantedAccess = true
+                            }
+                        )
+                    }
+                }
+                false -> {
+                    AppNavigation(
+                        navController = appNavController,
+                        windowSizeClass = windowSizeClass,
+                        startDestination = Screen.Onboarding.route
+                    )
+                }
             }
         }
-        false -> {
-            AppNavigation(
-                navController = appNavController,
-                windowSizeClass = windowSizeClass,
-                startDestination = Screen.Onboarding.route
+
+        if (isOnboardingCompleted == true && hasAllFilesAccess) {
+            com.cleanify.ui.components.SocialBarAdBanner(
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
@@ -111,6 +130,7 @@ fun MainApp(
     val showFeedbackDialog by viewModel.showFeedbackDialog.collectAsStateWithLifecycle()
     val showChangelogDialog by viewModel.showChangelogDialog.collectAsStateWithLifecycle()
     val lastSeenVersionCode by viewModel.lastSeenVersionCode.collectAsStateWithLifecycle()
+    val whatsappContactNumber by viewModel.whatsappContactNumber.collectAsStateWithLifecycle()
 
     LaunchedEffect(lastSeenVersionCode) {
         if (lastSeenVersionCode > 0 && lastSeenVersionCode < com.cleanify.BuildConfig.VERSION_CODE) {
@@ -123,6 +143,7 @@ fun MainApp(
     if (showFeedbackDialog) {
         com.cleanify.ui.components.FeedbackDialog(
             appVersion = com.cleanify.BuildConfig.VERSION_NAME,
+            whatsappNumberOverride = whatsappContactNumber,
             onDismiss = viewModel::closeFeedbackDialog,
             onNavigateToSettings = {
                 viewModel.closeFeedbackDialog()
@@ -133,7 +154,7 @@ fun MainApp(
 
     if (showChangelogDialog) {
         val changelogNotes = """
-            ### 🚀 Cleanify v3.1.0 Highlights
+            ### 🚀 Rony Clean Phone v3.1.0 Highlights
 
             - **Shake & Screenshot to Feedback**: Shake your phone or take a screenshot anytime to quickly open the feedback dialog.
             - **Upgraded Feedback Engine**:
@@ -161,9 +182,24 @@ fun MainApp(
 }
 
 @Composable
-fun PermissionRequiredScreen() {
+fun PermissionRequiredScreen(
+    onPermissionGranted: () -> Unit = {}
+) {
     var showCloseDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val legacyPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { _ ->
+        if (PermissionManager.hasAllFilesAccess(context)) {
+            onPermissionGranted()
+        } else {
+            try {
+                context.startActivity(PermissionManager.createAllFilesAccessIntent(context))
+            } catch (_: Exception) {
+                showCloseDialog = true
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -190,7 +226,7 @@ fun PermissionRequiredScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Cleanify needs All Files Access permission to organize your photos and videos across all folders on your device. This permission was requested during onboarding.",
+            text = "Rony Clean Phone needs All Files Access permission to organize your photos and videos across all folders on your device. This permission was requested during onboarding.",
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
@@ -198,7 +234,7 @@ fun PermissionRequiredScreen() {
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            text = "Please grant the permission in your device settings to continue using Cleanify.",
+            text = "Please grant the permission in your device settings to continue using Rony Clean Phone.",
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -208,15 +244,15 @@ fun PermissionRequiredScreen() {
 
         Button(
             onClick = {
-                try {
-                    val intent = PermissionManager.createAllFilesAccessIntent(context)
-                    if (intent != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    try {
+                        val intent = PermissionManager.createAllFilesAccessIntent(context)
                         context.startActivity(intent)
-                    } else {
+                    } catch (e: Exception) {
                         showCloseDialog = true
                     }
-                } catch (e: Exception) {
-                    showCloseDialog = true
+                } else {
+                    legacyPermissionLauncher.launch(PermissionManager.LEGACY_STORAGE_PERMISSIONS)
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -237,9 +273,9 @@ fun PermissionRequiredScreen() {
     if (showCloseDialog) {
         AppDialog(
             onDismissRequest = { showCloseDialog = false },
-            title = { Text("Close Cleanify") },
+            title = { Text("Close Rony Clean Phone") },
             text = {
-                Text("Cleanify cannot function without All Files Access permission. We tried to, but it ended up being required for Cleanify to work properly for most users.")
+                Text("Rony Clean Phone cannot function without All Files Access permission. We tried to, but it ended up being required for the app to work properly for most users.")
             }
         ) {
             TextButton(

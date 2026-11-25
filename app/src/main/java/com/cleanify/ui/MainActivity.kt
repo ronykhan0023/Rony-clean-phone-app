@@ -25,6 +25,7 @@ import android.util.TypedValue
 import android.view.View
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -38,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.cleanify.ui.theme.AppTheme
 import com.cleanify.ui.theme.CleanifyTheme
+import com.cleanify.ui.theme.EyeSaverOverlay
 import com.cleanify.data.cleaner.RecycleBinPurgeWorker
 import com.cleanify.util.ProactiveIndexer
 import com.cleanify.util.RecycleBinManager
@@ -147,30 +149,31 @@ class MainActivity : BaseActivity() {
             recycleBinManager.purgeExpired()
         }
 
-        // Schedule periodic update checking based on user preference
-        lifecycleScope.launch {
-            val interval = mainViewModel.updateCheckInterval.first()
-            com.cleanify.util.AppUpdateWorker.scheduleOrCancel(this@MainActivity, interval)
-        }
-
         setContent {
             val currentTheme by mainViewModel.currentTheme.collectAsStateWithLifecycle()
             val useDynamicColors by mainViewModel.useDynamicColors.collectAsStateWithLifecycle()
             val accentColorKey by mainViewModel.accentColorKey.collectAsStateWithLifecycle()
             val reduceAnimations by mainViewModel.reduceAnimations.collectAsStateWithLifecycle()
+            val eyeSaverEnabled by mainViewModel.eyeSaverEnabled.collectAsStateWithLifecycle()
+            val eyeSaverIntensity by mainViewModel.eyeSaverIntensity.collectAsStateWithLifecycle()
             val windowSizeClass = calculateWindowSizeClass(this)
 
             CleanifyTheme(
                 theme = currentTheme,
                 useDynamicColors = useDynamicColors,
                 accentColorKey = accentColorKey,
-                reduceAnimations = reduceAnimations
+                reduceAnimations = reduceAnimations,
+                eyeSaverEnabled = eyeSaverEnabled,
+                eyeSaverIntensity = eyeSaverIntensity
             ) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    MainApp(viewModel = mainViewModel, windowSizeClass = windowSizeClass)
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        MainApp(viewModel = mainViewModel, windowSizeClass = windowSizeClass)
+                    }
+                    EyeSaverOverlay()
                 }
             }
         }

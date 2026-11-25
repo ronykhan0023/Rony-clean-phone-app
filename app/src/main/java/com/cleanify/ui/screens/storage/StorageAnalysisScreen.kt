@@ -16,6 +16,7 @@ import android.text.format.Formatter
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import com.cleanify.util.StorageVolumeCompat
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -215,7 +216,7 @@ fun StorageAnalysisScreen(
                 val volumes = mutableListOf<VolumeUsage>()
 
                 for (sv: StorageVolume in storageManager.storageVolumes) {
-                    val dir = sv.directory ?: continue
+                    val dir = StorageVolumeCompat.resolveDirectory(sv) ?: continue
                     if (!dir.isDirectory || !dir.canRead()) continue
                     val stat = StatFs(dir.absolutePath)
                     val blockSize = stat.blockSizeLong
@@ -253,7 +254,9 @@ fun StorageAnalysisScreen(
                 for (vol in volumes) {
                     val dir = if (vol.isPrimary) Environment.getExternalStorageDirectory()
                     else volumes.firstOrNull { it.description == vol.description }?.let {
-                        storageManager.storageVolumes.firstOrNull { sv -> sv.getDescription(context) == vol.description }?.directory
+                        storageManager.storageVolumes.firstOrNull { sv -> sv.getDescription(context) == vol.description }?.let { sv ->
+                            StorageVolumeCompat.resolveDirectory(sv)
+                        }
                     } ?: continue
                     if (!dir.isDirectory) continue
 

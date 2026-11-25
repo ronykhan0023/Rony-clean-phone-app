@@ -16,7 +16,7 @@
   ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Cleanify</string>
+    <string name="app_name">Rony Clean Phone</string>
 
     <!-- General / Common -->
     <string name="confirm">Conferma</string>
@@ -354,11 +354,11 @@
     <string name="onboarding_next">Avanti</string>
     <string name="onboarding_grant_permission">Concedi Accesso a Tutti i File</string>
     <string name="onboarding_get_started">Inizia</string>
-    <string name="onboarding_close_dialog_title">Chiudi Cleanify</string>
-    <string name="onboarding_close_dialog_body">Cleanify non può funzionare senza il permesso di Accesso a Tutti i File. Abbiamo provato, ma è risultato necessario affinché Cleanify funzioni correttamente per la maggior parte degli utenti.</string>
+    <string name="onboarding_close_dialog_title">Chiudi Rony Clean Phone</string>
+    <string name="onboarding_close_dialog_body">Rony Clean Phone non può funzionare senza il permesso di Accesso a Tutti i File. Abbiamo provato, ma è risultato necessario affinché l\'app funzioni correttamente per la maggior parte degli utenti.</string>
     <string name="permission_screen_title">Accesso a Tutti i File Richiesto</string>
-    <string name="permission_screen_desc">Cleanify necessita del permesso di Accesso a Tutti i File per organizzare foto e video in tutte le cartelle del dispositivo.</string>
-    <string name="permission_screen_instruction">Per favore concedi il permesso nelle impostazioni del dispositivo per usare Cleanify.</string>
+    <string name="permission_screen_desc">Rony Clean Phone necessita del permesso di Accesso a Tutti i File per organizzare foto e video in tutte le cartelle del dispositivo.</string>
+    <string name="permission_screen_instruction">Per favore concedi il permesso nelle impostazioni del dispositivo per usare Rony Clean Phone.</string>
     <string name="open_settings">Apri Impostazioni</string>
 
     <!-- Onboarding Pages -->
@@ -404,6 +404,7 @@
     <string name="language_desc">Scegli la lingua preferita.</string>
     <string name="language_system">Predefinita di sistema</string>
     <string name="language_english">English</string>
+    <string name="language_bangla">বাংলা (Bangla)</string>
     <string name="language_italian">Italiano</string>
 
     <!-- Theme Settings -->
@@ -557,8 +558,8 @@
     <string name="support_development_desc">Sostieni il progetto</string>
     <string name="version_title">Versione</string>
     <string name="app_version_copied">Versione app copiata: %1$s</string>
-    <string name="about_cleanify_title">Informazioni su Cleanify</string>
-    <string name="about_cleanify_desc">Scopri di più su Cleanify</string>
+    <string name="about_cleanify_title">Informazioni su Rony Clean Phone</string>
+    <string name="about_cleanify_desc">Scopri di più su Rony Clean Phone</string>
     <string name="github_title">GitHub</string>
     <string name="github_summary">github.com/LoopOtto/Cleanify</string>
     <string name="gitlab_title">GitLab</string>
@@ -641,7 +642,7 @@
     <string name="indexing_status_all_indexed">Tutti i file multimediali sono conosciuti dal MediaStore.</string>
     <string name="refresh_scan_icon_desc">Aggiorna Stato / Scansiona Ora</string>
     <string name="funding_dialog_title">Supporta lo Sviluppo</string>
-    <string name="funding_dialog_body">Cleanify è gratuito e open source. Se lo trovi utile, considera di sostenerne lo sviluppo.</string>
+    <string name="funding_dialog_body">Rony Clean Phone è gratuito e open source. Se lo trovi utile, considera di sostenerne lo sviluppo.</string>
     <string name="address_copied">Indirizzo copiato</string>
     <string name="copy_address_icon_desc">Copia indirizzo</string>
     <string name="funding_dialog_footer">Sentiti libero di includere il tuo nome utente GitHub nella descrizione della transazione!</string>
@@ -659,5 +660,25 @@
     <string name="empty_search_desc">Nessun file corrisponde alla tua ricerca. Prova parole chiave o filtri diversi.</string>
     <string name="empty_generic_title">Niente Qui</string>
     <string name="empty_generic_desc">Nessun elemento da visualizzare al momento.</string>
+
+    <!-- Contact & Display Modes -->
+    <string name="contact_with_me_title">Contact with me</string>
+    <string name="whatsapp_contact_section_header">Contatti</string>
+    <string name="whatsapp_tap_to_open">Tocca l\'icona WhatsApp per aprire la chat</string>
+    <string name="whatsapp_number_not_set">Tocca per impostare il tuo numero WhatsApp</string>
+    <string name="whatsapp_edit_number_title">Numero WhatsApp</string>
+    <string name="whatsapp_edit_number_hint">Includi prefisso internazionale (es. +8801XXXXXXXXX)</string>
+    <string name="whatsapp_edit_number_desc">Questo numero viene mostrato sotto Contact with me e apre direttamente WhatsApp al tocco.</string>
+    <string name="whatsapp_invalid_number">Inserisci un numero WhatsApp valido</string>
+    <string name="whatsapp_not_installed">WhatsApp non è installato su questo dispositivo</string>
+    <string name="whatsapp_open_chat">Apri WhatsApp</string>
+    <string name="whatsapp_save">Salva</string>
+    <string name="display_modes_section_header">Schermo e Comfort</string>
+    <string name="dark_mode_title">Modalità Scura</string>
+    <string name="dark_mode_desc">Passa comodamente tra tema chiaro e scuro</string>
+    <string name="eye_saver_title">Eye Saver</string>
+    <string name="eye_saver_desc">Filtro luce blu caldo per ridurre l\'affaticamento visivo</string>
+    <string name="eye_saver_intensity_title">Intensità Eye Saver</string>
+    <string name="eye_saver_intensity_desc">Regola l\'intensità del filtro caldo (%1$d%%)</string>
 
 </resources>

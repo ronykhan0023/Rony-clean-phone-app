@@ -19,14 +19,21 @@ package com.cleanify.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -154,6 +161,8 @@ private val AmoledColorScheme = darkColorScheme(
 
 val LocalAppTheme = staticCompositionLocalOf { AppTheme.SYSTEM }
 val LocalReducedAnimations = staticCompositionLocalOf { false }
+val LocalEyeSaverEnabled = staticCompositionLocalOf { false }
+val LocalEyeSaverIntensity = staticCompositionLocalOf { 0.35f }
 
 val ExpressiveShapes = Shapes(
     extraSmall = RoundedCornerShape(4.dp),
@@ -169,6 +178,8 @@ fun CleanifyTheme(
     useDynamicColors: Boolean = true,
     accentColorKey: String = "DEFAULT_BLUE",
     reduceAnimations: Boolean = false,
+    eyeSaverEnabled: Boolean = false,
+    eyeSaverIntensity: Float = 0.35f,
     content: @Composable () -> Unit
 ) {
     val darkTheme = theme.isDark
@@ -246,13 +257,36 @@ fun CleanifyTheme(
 
     CompositionLocalProvider(
         LocalAppTheme provides theme,
-        LocalReducedAnimations provides reduceAnimations
+        LocalReducedAnimations provides reduceAnimations,
+        LocalEyeSaverEnabled provides eyeSaverEnabled,
+        LocalEyeSaverIntensity provides eyeSaverIntensity
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = AppTypography,
             shapes = ExpressiveShapes,
             content = content
+        )
+    }
+}
+
+@Composable
+fun EyeSaverOverlay(
+    enabled: Boolean = LocalEyeSaverEnabled.current,
+    intensity: Float = LocalEyeSaverIntensity.current,
+    modifier: Modifier = Modifier
+) {
+    val targetAlpha = if (enabled) (0.08f + intensity.coerceIn(0.10f, 0.70f) * 0.28f) else 0f
+    val animatedAlpha by animateFloatAsState(
+        targetValue = targetAlpha,
+        animationSpec = tween(durationMillis = 240),
+        label = "EyeSaverFilterAlpha"
+    )
+    if (animatedAlpha > 0.001f) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(Color(0xFFFF9800).copy(alpha = animatedAlpha))
         )
     }
 }

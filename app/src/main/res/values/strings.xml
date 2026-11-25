@@ -16,7 +16,7 @@
   ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Cleanify</string>
+    <string name="app_name">Rony Clean Phone</string>
 
     <!-- General / Common -->
     <string name="confirm">Confirm</string>
@@ -329,11 +329,11 @@
     <string name="onboarding_next">Next</string>
     <string name="onboarding_grant_permission">Grant All Files Access</string>
     <string name="onboarding_get_started">Get Started</string>
-    <string name="onboarding_close_dialog_title">Close Cleanify</string>
-    <string name="onboarding_close_dialog_body">Cleanify cannot function without All Files Access permission. We tried to but it ended up being required for Cleanify to work properly for most users.</string>
+    <string name="onboarding_close_dialog_title">Close Rony Clean Phone</string>
+    <string name="onboarding_close_dialog_body">Rony Clean Phone cannot function without All Files Access permission. We tried to but it ended up being required for the app to work properly for most users.</string>
     <string name="permission_screen_title">All Files Access Required</string>
-    <string name="permission_screen_desc">Cleanify needs All Files Access permission to organize your photos and videos across all folders on your device.</string>
-    <string name="permission_screen_instruction">Please grant the permission in your device settings to use Cleanify.</string>
+    <string name="permission_screen_desc">Rony Clean Phone needs All Files Access permission to organize your photos and videos across all folders on your device.</string>
+    <string name="permission_screen_instruction">Please grant the permission in your device settings to use Rony Clean Phone.</string>
     <string name="open_settings">Open Settings</string>
 
     <!-- Onboarding Pages (3 screens) -->
@@ -407,6 +407,7 @@
     <string name="language_desc">Choose your preferred language.</string>
     <string name="language_system">System Default</string>
     <string name="language_english">English</string>
+    <string name="language_bangla">বাংলা (Bangla)</string>
     <string name="language_italian">Italiano</string>
 
     <!-- Theme Settings -->
@@ -593,8 +594,8 @@
     <string name="support_development_desc">Support the project</string>
     <string name="version_title">Version</string>
     <string name="app_version_copied">App version copied: %1$s</string>
-    <string name="about_cleanify_title">About Cleanify</string>
-    <string name="about_cleanify_desc">Learn more about Cleanify</string>
+    <string name="about_cleanify_title">About Rony Clean Phone</string>
+    <string name="about_cleanify_desc">Learn more about Rony Clean Phone</string>
     <string name="github_title">GitHub</string>
     <string name="github_summary">github.com/LoopOtto/Cleanify</string>
     <string name="gitlab_title">GitLab</string>
@@ -671,7 +672,7 @@
     <string name="indexing_status_all_indexed">All media files are known to the MediaStore.</string>
     <string name="refresh_scan_icon_desc">Refresh Status / Scan Now</string>
     <string name="funding_dialog_title">Support Development</string>
-    <string name="funding_dialog_body">Cleanify is free and open source. If you find it useful, consider supporting its development.</string>
+    <string name="funding_dialog_body">Rony Clean Phone is free and open source. If you find it useful, consider supporting its development.</string>
     <string name="address_copied">Address copied</string>
     <string name="copy_address_icon_desc">Copy Address</string>
     <string name="funding_dialog_footer">Feel free to include your GitHub username in the transaction description!</string>
@@ -692,7 +693,7 @@
     <string name="immersive_mode_desc">Hide status bar and navigation bar for a full-screen experience in the Swiper</string>
     <string name="hide_from_gallery_title">Hide from Gallery</string>
     <string name="hide_from_gallery_desc">Prevents trashed photos and videos from appearing in gallery, music player, or other media apps (recommended)</string>
-    <string name="widget_description">Quick actions for Cleanify</string>
+    <string name="widget_description">Quick actions for Rony Clean Phone</string>
     <string name="widget_quick_clean">Quick Clean</string>
     <string name="widget_duplicates">Duplicates</string>
     <string name="widget_recycle_bin">Recycle Bin</string>
@@ -749,5 +750,25 @@
     <string name="update_interval_3_days">Every 3 days</string>
     <string name="update_interval_5_days">Every 5 days</string>
     <string name="update_interval_weekly">Every 7 days (Weekly)</string>
+
+    <!-- Contact & Display Modes -->
+    <string name="contact_with_me_title">Contact with me</string>
+    <string name="whatsapp_contact_section_header">Contact</string>
+    <string name="whatsapp_tap_to_open">Tap WhatsApp icon to chat</string>
+    <string name="whatsapp_number_not_set">Tap to set your WhatsApp number</string>
+    <string name="whatsapp_edit_number_title">WhatsApp Number</string>
+    <string name="whatsapp_edit_number_hint">Include country code (e.g. +8801XXXXXXXXX)</string>
+    <string name="whatsapp_edit_number_desc">This number is displayed under Contact with me and opens directly in WhatsApp when tapped.</string>
+    <string name="whatsapp_invalid_number">Please enter a valid WhatsApp number</string>
+    <string name="whatsapp_not_installed">WhatsApp is not installed on this device</string>
+    <string name="whatsapp_open_chat">Open WhatsApp</string>
+    <string name="whatsapp_save">Save</string>
+    <string name="display_modes_section_header">Display &amp; Comfort</string>
+    <string name="dark_mode_title">Dark Mode</string>
+    <string name="dark_mode_desc">Switch comfortably between light and dark theme</string>
+    <string name="eye_saver_title">Eye Saver</string>
+    <string name="eye_saver_desc">Warm blue-light filter to reduce eye strain</string>
+    <string name="eye_saver_intensity_title">Eye Saver Warmth</string>
+    <string name="eye_saver_intensity_desc">Adjust warm filter strength (%1$d%%)</string>
 
 </resources>

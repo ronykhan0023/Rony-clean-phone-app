@@ -30,7 +30,7 @@ class StorageVolumeProvider @Inject constructor(
             val storageVolumes = storageManager.storageVolumes
 
             for (sv in storageVolumes) {
-                val dir = sv.directory ?: continue
+                val dir = StorageVolumeCompat.resolveDirectory(sv) ?: continue
                 val desc = sv.getDescription(context)
                 val isPrimary = sv.isPrimary
                 val isRemovable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -62,6 +62,6 @@ class StorageVolumeProvider @Inject constructor(
     fun getScanRoots(): List<File> = getVolumes().map { it.directory }
 
     private fun getVolumeId(volume: StorageVolume): String? {
-        return volume.uuid ?: volume.directory?.absolutePath
+        return volume.uuid ?: StorageVolumeCompat.resolveDirectory(volume)?.absolutePath
     }
 }

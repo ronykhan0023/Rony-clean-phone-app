@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Rony Clean Phone</string>
+
+    <!-- General / Common -->
+    <string name="confirm">নিশ্চিত করুন</string>
+    <string name="cancel">বাতিল</string>
+    <string name="delete">মুছুন</string>
+    <string name="retry">আবার চেষ্টা করুন</string>
+    <string name="close">বন্ধ করুন</string>
+    <string name="back">ফিরে যান</string>
+    <string name="settings">সেটিংস</string>
+    <string name="more_options">আরও বিকল্প</string>
+    <string name="navigate_back">পিছনে যান</string>
+    <string name="unknown_error">একটি অজানা ত্রুটি ঘটেছে</string>
+    <string name="error_prefix">ত্রুটি: %1$s</string>
+    <string name="warning">সতর্কতা</string>
+    <string name="done">সম্পন্ন</string>
+    <string name="open">খুলুন</string>
+    <string name="open_with">অন্য অ্যাপে খুলুন</string>
+    <string name="open_full_screen">পূর্ণ-স্ক্রিনে খুলুন</string>
+    <string name="share">শেয়ার করুন</string>
+    <string name="rename">নাম পরিবর্তন করুন</string>
+    <string name="select_all">সব নির্বাচন করুন</string>
+    <string name="unselect_all">সব অনির্বাচন করুন</string>
+    <string name="loading">লোড হচ্ছে…</string>
+    <string name="ok">ঠিক আছে</string>
+    <string name="create">তৈরি করুন</string>
+    <string name="skip">এড়িয়ে যান</string>
+    <string name="reset">রিসেট করুন</string>
+
+    <!-- File Operations -->
+    <string name="filename_copied">ফাইলের নাম কপি হয়েছে!</string>
+    <string name="folder_renamed_success">ফোল্ডারের নাম সফলভাবে পরিবর্তিত হয়েছে।</string>
+    <plurals name="files_deleted_success">
+        <item quantity="one">১টি ফাইল সফলভাবে মুছে ফেলা হয়েছে।</item>
+        <item quantity="other">%1$dটি ফাইল সফলভাবে মুছে ফেলা হয়েছে।</item>
+    </plurals>
+    <string name="could_not_delete_all">ত্রুটি: নির্বাচিত সব ফাইল মুছে ফেলা যায়নি।</string>
+    <string name="no_files_found_on_disk">নির্বাচিত কোনো ফাইল স্টোরেজে পাওয়া যায়নি। সেগুলো হয়তো বাইরে থেকে মুছে ফেলা হয়েছে।</string>
+    <plurals name="files_not_found_deleting_remaining">
+        <item quantity="one">১টি ফাইল পাওয়া যায়নি এবং এড়িয়ে যাওয়া হবে।</item>
+        <item quantity="other">%1$dটি ফাইল পাওয়া যায়নি এবং এড়িয়ে যাওয়া হবে।</item>
+    </plurals>
+    <string name="no_files_selected_delete">মুছে ফেলার জন্য কোনো ফাইল নির্বাচন করা হয়নি।</string>
+    <string name="no_app_to_share">এই ফাইল শেয়ার করার মতো কোনো অ্যাপ নেই।</string>
+    <string name="no_app_to_open">এই ফাইল খোলার মতো কোনো অ্যাপ নেই।</string>
+    <string name="error_creating_uri">শেয়ার করার জন্য ফাইল প্রস্তুত করতে ত্রুটি হয়েছে।</string>
+    <string name="file_size_label">আকার: %1$s</string>
+    <string name="export_filename_default">target_favorites.json</string>
+
+    <!-- Session Setup Screen -->
+    <string name="select_folders_title">ফোল্ডার নির্বাচন করুন</string>
+    <string name="start_session">সেশন শুরু করুন</string>
+    <string name="search_hint">খুঁজুন</string>
+    <string name="clear_search">খোঁজা পরিষ্কার করুন</string>
+    <string name="scanning_device_message">মিডিয়া ফোল্ডারের জন্য ডিভাইস স্ক্যান করা হচ্ছে…</string>
+    <string name="no_media_folders_found">কোনো মিডিয়া ফোল্ডার পাওয়া যায়নি</string>
+    <string name="no_media_folders_desc">নতুন ডিভাইসে এমন হতে পারে। কিছু ছবি বা ভিডিও যোগ করে আবার স্ক্যান করতে নিচে টানুন।</string>
+    <string name="no_results_found">কোনো ফলাফল পাওয়া যায়নি</string>
+    <string name="no_search_results_desc">\"%1$s\"-এর জন্য কোনো ফোল্ডারের নাম পাওয়া যায়নি।</string>
+    <string name="find_duplicates">ডুপ্লিকেট খুঁজুন</string>
+    <string name="scanning_progress_title">ডুপ্লিকেট স্ক্যান করা হচ্ছে</string>
+    <string name="scan_complete_title">স্ক্যান সম্পন্ন</string>
+    <string name="sort">সাজান</string>
+    <string name="sort_name_az">নাম (A-Z)</string>
+    <string name="sort_name_za">নাম (Z-A)</string>
+    <string name="sort_size_largest">আকার (বড় থেকে ছোট)</string>
+    <string name="sort_size_smallest">আকার (ছোট থেকে বড়)</string>
+    <string name="sort_count_most">আইটেম সংখ্যা (বেশি থেকে কম)</string>
+    <string name="sort_count_fewest">আইটেম সংখ্যা (কম থেকে বেশি)</string>
+    <plurals name="context_selected_count">
+        <item quantity="one">১টি নির্বাচিত</item>
+        <item quantity="other">%1$dটি নির্বাচিত</item>
+    </plurals>
+    <string name="close_selection_mode">নির্বাচন মোড বন্ধ করুন</string>
+    <string name="add_to_favorites">পছন্দের তালিকায় যোগ করুন</string>
+    <string name="remove_from_favorites">পছন্দের তালিকা থেকে সরান</string>
+    <string name="mark_as_sorted">সাজানো হিসেবে চিহ্নিত করুন</string>
+    <string name="mark_permanently_as_sorted">স্থায়ীভাবে সাজানো হিসেবে চিহ্নিত করুন</string>
+    <string name="mark_sorted_title_single">সাজানো হিসেবে চিহ্নিত করবেন?</string>
+    <string name="mark_sorted_body_single">আপনি কি নিশ্চিত যে \'%1$s\' ফোল্ডারটি এই তালিকা থেকে স্থায়ীভাবে লুকাতে চান? নতুন মিডিয়া যোগ করলেও এটি আর দেখাবে না। সেটিংস থেকে এটি রিসেট করা যাবে।</string>
+    <string name="mark_sorted_body_recursive">আপনি কি নিশ্চিত যে \'%1$s\' এবং এর সাব-ফোল্ডারগুলো তালিকা থেকে স্থায়ীভাবে লুকাতে চান? নতুন মিডিয়া যোগ করলেও এগুলো আর দেখাবে না। সেটিংস থেকে এটি রিসেট করা যাবে।</string>
+    <plurals name="mark_sorted_title_multiple">
+        <item quantity="one">১টি ফোল্ডার সাজানো হিসেবে চিহ্নিত করবেন?</item>
+        <item quantity="other">%1$dটি ফোল্ডার সাজানো হিসেবে চিহ্নিত করবেন?</item>
+    </plurals>
+    <plurals name="mark_sorted_body_multiple">
+        <item quantity="one">আপনি কি নিশ্চিত যে এই ফোল্ডারটি (নির্বাচিত সাব-ফোল্ডারসহ) তালিকা থেকে স্থায়ীভাবে লুকাতে চান? সেটিংস থেকে এটি রিসেট করা যাবে।</item>
+        <item quantity="other">আপনি কি নিশ্চিত যে এই %1$dটি ফোল্ডার (নির্বাচিত সাব-ফোল্ডারসহ) তালিকা থেকে স্থায়ীভাবে লুকাতে চান? সেটিংস থেকে এটি রিসেট করা যাবে।</item>
+    </plurals>
+    <string name="move_to_ellipsis">সরিয়ে নিন…</string>
+    <string name="search_destination_label">গন্তব্য খুঁজুন বা নির্বাচন করুন</string>
+    <string name="move_action">সরান</string>
+    <plurals name="folder_item_desc">
+        <item quantity="one">১টি আইটেম · %2$s</item>
+        <item quantity="other">%1$dটি আইটেম · %2$s</item>
+    </plurals>
+    <string name="includes_subfolders">সাব-ফোল্ডার অন্তর্ভুক্ত।</string>
+    <string name="select_folder_and_subfolders">ফোল্ডার এবং সাব-ফোল্ডার নির্বাচন করুন</string>
+    <string name="deselect_subfolders">সাব-ফোল্ডার অনির্বাচন করুন</string>
+    <string name="favorite">পছন্দ</string>
+    <string name="unfavorite">অপছন্দ</string>
+
+    <!-- Swiper Screen -->
+    <string name="unsaved_changes_title">অসংরক্ষিত পরিবর্তন</string>
+    <string name="unsaved_changes_message">আপনার পরিবর্তনগুলো এখনও প্রয়োগ করা হয়নি। আপনি কি বের হয়ে যেতে চান?</string>
+    <string name="exit_anyway">তবুও বের হন</string>
+    <string name="review_changes">পরিবর্তন পর্যালোচনা করুন</string>
+    <string name="no_more_items">সাজানোর জন্য আর কোনো আইটেম নেই!</string>
+    <string name="all_organized_title">সব মিডিয়া সাজানো সম্পন্ন হয়েছে। দারুণ!</string>
+    <string name="review_skipped_items">এড়িয়ে যাওয়া আইটেম দেখুন</string>
+    <string name="select_different_folders">অন্য ফোল্ডার নির্বাচন করুন</string>
+    <string name="reset_single_folder">একটি ফোল্ডার রিসেট করুন</string>
+    <string name="reset_all_sorted_media">সব সাজানো মিডিয়া রিসেট করুন</string>
+    <string name="close_app">অ্যাপ বন্ধ করুন</string>
+    <string name="add_target_folder">টার্গেট ফোল্ডার যোগ করুন</string>
+    <string name="skip_item">আইটেম এড়িয়ে যান</string>
+    <string name="undo_last_action">শেষ কাজ বাতিল করুন</string>
+    <string name="expand">বিস্তারিত দেখুন</string>
+    <string name="collapse">সংকুচিত করুন</string>
+    <string name="remove_from_bar">বার থেকে সরান</string>
+    <string name="move_to_to_edit">\'To Edit\' ফোল্ডারে সরান</string>
+    <string name="screenshot">স্ক্রিনশট</string>
+    <string name="mute_video">ভিডিও মিউট করুন</string>
+    <string name="unmute_video">ভিডিও আনমিউট করুন</string>
+    <string name="pending_conversion_desc">ছবিতে রূপান্তরের অপেক্ষায়</string>
+    <string name="forget_sorted_media_title">সাজানো মিডিয়া ভুলে যান</string>
+    <string name="search_folder_reset_label">রিসেট করার জন্য ফোল্ডার খুঁজুন…</string>
+    <string name="forget_action">ভুলে যান</string>
+    <string name="forget_confirm_title">কাজ নিশ্চিত করুন</string>
+    <string name="forget_confirm_body">আপনি কি নিশ্চিত যে \'%1$s\' ফোল্ডারের সব সাজানো মিডিয়ার ইতিহাস মুছে ফেলতে চান? ফোল্ডারে মিডিয়া থাকলে এটি আবার দেখাবে।</string>
+    <string name="forget_success_toast">\'%1$s\' ইতিহাস রিসেট করা হয়েছে।</string>
+    <string name="no_sorted_history_toast">সাজানো মিডিয়ার কোনো ইতিহাস পাওয়া যায়নি।</string>
+    <string name="changes_applied_success">পরিবর্তনগুলো সফলভাবে প্রয়োগ করা হয়েছে!</string>
+    <string name="failed_apply_changes">এক বা একাধিক পরিবর্তন প্রয়োগ করতে ব্যর্থ হয়েছে।</string>
+    <string name="added_screenshot_toast">স্ক্রিনশট পরিবর্তন তালিকায় যোগ করা হয়েছে</string>
+    <string name="could_not_find_parent">মূল ফোল্ডার পাওয়া যায়নি।</string>
+    <string name="refreshed_external_changes">বাইরের ফাইল পরিবর্তনের সাথে মিলিয়ে রিফ্রেশ করা হয়েছে।</string>
+    <plurals name="target_favorite_removed_toast">
+        <item quantity="one">১টি পছন্দের টার্গেট ফোল্ডার আর না থাকায় সরানো হয়েছে।</item>
+        <item quantity="other">%1$dটি পছন্দের টার্গেট ফোল্ডার আর না থাকায় সরানো হয়েছে।</item>
+    </plurals>
+    <string name="target_favorite_removed_single_toast" tools:ignore="UnusedResources">১টি পছন্দের টার্গেট ফোল্ডার আর না থাকায় সরানো হয়েছে।</string>
+    <plurals name="files_skipped_missing_toast">
+        <item quantity="one">১টি ফাইল পাওয়া যায়নি এবং এড়িয়ে যাওয়া হবে।</item>
+        <item quantity="other">%1$dটি ফাইল পাওয়া যায়নি এবং এড়িয়ে যাওয়া হবে।</item>
+    </plurals>
+    <string name="select_parent_location_toast">দয়া করে একটি মূল ফোল্ডার অবস্থান নির্বাচন করুন।</string>
+    <string name="select_folder_import_toast">দয়া করে ইম্পোর্ট করার জন্য একটি ফোল্ডার নির্বাচন করুন।</string>
+    <string name="video_no_audio_toast">ভিডিওটিতে কোনো অডিও ট্র্যাক নেই।</string>
+    <string name="failed_load_media_prefix">মিডিয়া লোড করতে ব্যর্থ: %1$s</string>
+    <string name="apply_changes_button">পরিবর্তন প্রয়োগ করুন</string>
+    <string name="folder_name_to_edit">সম্পাদনার জন্য</string>
+    <string name="cancel_all_changes">সব বাতিল করুন</string>
+    <string name="summary_title_format">পরিবর্তন পর্যালোচনা (%1$d)</string>
+    <string name="move_to_folder_header">সরানো হবে: %1$s (%2$d)</string>
+    <string name="convert_to_image_header">ছবিতে রূপান্তর (%1$d)</string>
+    <string name="delete_header">মুছে ফেলা হবে (%1$d)</string>
+    <string name="keep_header">রাখা হবে (%1$d)</string>
+    <string name="confirm_changes_title">পরিবর্তন নিশ্চিত করুন</string>
+    <string name="confirm_changes_body">আপনি কি নিশ্চিত যে আপনার ফাইলগুলোতে এই পরিবর্তনগুলো প্রয়োগ করতে চান?</string>
+
+    <!-- Plurals -->
+    <plurals name="skipped_session_items_plurals">
+        <item quantity="one">আপনি এই সেশনে ১টি আইটেম এড়িয়ে গেছেন।</item>
+        <item quantity="other">আপনি এই সেশনে %dটি আইটেম এড়িয়ে গেছেন।</item>
+    </plurals>
+    <plurals name="files_selected_count_plurals">
+        <item quantity="one">১টি ফাইল</item>
+        <item quantity="other">%dটি ফাইল</item>
+    </plurals>
+    <plurals name="unreadable_files_count_plurals">
+        <item quantity="one">১টি ফাইল পড়া যায়নি</item>
+        <item quantity="other">%dটি ফাইল পড়া যায়নি</item>
+    </plurals>
+
+    <!-- Duplicates Screen -->
+    <string name="duplicate_finder_title">ডুপ্লিকেট খুঁজুন</string>
+    <string name="scanning_phase">স্ক্যান করা হচ্ছে…</string>
+    <string name="scanning_preparing_phase">প্রস্তুত করা হচ্ছে…</string>
+    <string name="scanning_cancelling_phase">বাতিল করা হচ্ছে…</string>
+    <plurals name="scan_result_title">
+        <item quantity="one">স্ক্যান ফলাফল (১টি গ্রুপ)</item>
+        <item quantity="other">স্ক্যান ফলাফল (%1$dটি গ্রুপ)</item>
+    </plurals>
+    <string name="delete_all_exact_duplicates">সব হুবহু ডুপ্লিকেট মুছুন</string>
+    <string name="new_scan">নতুন স্ক্যান</string>
+    <string name="change_grid_columns">গ্রিড কলাম পরিবর্তন করুন</string>
+    <string name="toggle_view_mode">ভিউ মোড পরিবর্তন করুন</string>
+    <string name="confirm_deletion_title">মুছে ফেলা নিশ্চিত করুন</string>
+    <string name="confirm_deletion_body">আপনি কি নিশ্চিত যে নির্বাচিত ফাইলগুলো স্থায়ীভাবে মুছে ফেলতে চান? এই কাজটি ফেরানো যাবে না।</string>
+    <string name="delete_all_exact_title">সব হুবহু ডুপ্লিকেট মুছবেন?</string>
+    <string name="delete_all_exact_body">এটি প্রতিটি হুবহু ডুপ্লিকেট গ্রুপের সবচেয়ে পুরনো ফাইলটি রেখে বাকিগুলো মুছে ফেলবে।\n\nনোট: হাতে পর্যালোচনা করা ভালো।</string>
+    <string name="do_not_ask_again">আবার জিজ্ঞাসা করবেন না</string>
+    <string name="delete_all">সব মুছুন</string>
+    <string name="view_group_title">গ্রুপ দেখুন</string>
+    <plurals name="view_group_items_title">
+        <item quantity="one">গ্রুপ দেখুন (১টি আইটেম)</item>
+        <item quantity="other">গ্রুপ দেখুন (%1$dটি আইটেম)</item>
+    </plurals>
+    <string name="change_layout_columns">লেআউট কলাম পরিবর্তন করুন</string>
+    <string name="keep_oldest">সবচেয়ে পুরনো রাখুন</string>
+    <string name="keep_newest">সবচেয়ে নতুন রাখুন</string>
+    <string name="flag_as_incorrect">ভুল হিসেবে চিহ্নিত করুন</string>
+    <string name="hide_group">গ্রুপ লুকান</string>
+    <string name="scan_exact_duplicates_title">হুবহু ডুপ্লিকেট</string>
+    <string name="scan_exact_duplicates_desc">১০০% একই রকম ফাইল খুঁজে বের করে।</string>
+    <string name="scan_similar_media_title">একই ধরনের মিডিয়া</string>
+    <string name="scan_similar_media_desc">দেখতে প্রায় একরকম ছবি বা ভিডিও খুঁজে বের করে।</string>
+    <string name="scan_first_time_note">নোট: প্রথম স্ক্যানে কিছুটা সময় লাগতে পারে। অ্যাপ থেকে বের হলেও ব্যাকগ্রাউন্ডে কাজ চলবে।</string>
+    <string name="start_scan">স্ক্যান শুরু করুন</string>
+    <string name="view_last_scan_results">সর্বশেষ স্ক্যানের ফলাফল দেখুন</string>
+    <plurals name="scan_limited_to_folders">
+        <item quantity="one">স্ক্যান শুধুমাত্র ১টি ফোল্ডারে সীমাবদ্ধ।</item>
+        <item quantity="other">স্ক্যান শুধুমাত্র %1$dটি ফোল্ডারে সীমাবদ্ধ।</item>
+    </plurals>
+    <plurals name="scan_ignores_folders">
+        <item quantity="one">স্ক্যান ১টি ফোল্ডার বাদ দেবে।</item>
+        <item quantity="other">স্ক্যান %1$dটি ফোল্ডার বাদ দেবে।</item>
+    </plurals>
+    <string name="scan_filter_active">স্ক্যান ফিল্টার সক্রিয়</string>
+    <string name="manage">পরিচালনা</string>
+    <string name="no_folders_in_list">এই তালিকায় কোনো ফোল্ডার নেই। যোগ করতে পরিচালনা-তে ট্যাপ করুন।</string>
+    <plurals name="list_more_items_suffix">
+        <item quantity="one">• …এবং আরও ১টি</item>
+        <item quantity="other">• …এবং আরও %1$dটি</item>
+    </plurals>
+    <string name="cancel_scan">স্ক্যান বাতিল করুন</string>
+    <string name="no_exact_or_similar_found">কোনো ডুপ্লিকেট বা একই ধরনের মিডিয়া পাওয়া যায়নি। দারুণ!</string>
+    <string name="no_exact_found">কোনো হুবহু ডুপ্লিকেট পাওয়া যায়নি। দারুণ!</string>
+    <string name="no_similar_found">কোনো একই ধরনের মিডিয়া পাওয়া যায়নি। দারুণ!</string>
+    <string name="stale_results_warning">%1$s-এর ফলাফল দেখানো হচ্ছে</string>
+    <string name="run_new_scan_hint">সর্বশেষ ফলাফলের জন্য নতুন স্ক্যান চালান।</string>
+    <string name="dismiss_warning">সতর্কতা সরান</string>
+    <string name="rescan">আবার স্ক্যান করুন</string>
+    <string name="unreadable_files_hint">এগুলো নষ্ট বা অ্যাক্সেস অযোগ্য হতে পারে। বিস্তারিত জানতে ট্যাপ করুন।</string>
+    <string name="unreadable_files_dialog_title">অপাঠ্য ফাইলসমূহ</string>
+    <string name="no_unreadable_user_files">কোনো অপাঠ্য ব্যবহারকারী ফাইল পাওয়া যায়নি। বাকি ফাইলগুলো সাধারণত লুকানো সিস্টেম বা অস্থায়ী ফাইল।</string>
+    <string name="no_unreadable_files_device">আপনার ডিভাইসে কোনো অপাঠ্য ফাইল পাওয়া যায়নি।</string>
+    <string name="show_hidden_temp_files">লুকানো/অস্থায়ী ফাইল দেখান</string>
+    <string name="unknown_location">অজানা অবস্থান</string>
+    <plurals name="duplicates_found_count">
+        <item quantity="one">১টি ডুপ্লিকেট পাওয়া গেছে</item>
+        <item quantity="other">%1$dটি ডুপ্লিকেট পাওয়া গেছে</item>
+    </plurals>
+    <plurals name="similar_media_found_count">
+        <item quantity="one">১টি একই ধরনের মিডিয়া পাওয়া গেছে</item>
+        <item quantity="other">%1$dটি একই ধরনের মিডিয়া পাওয়া গেছে</item>
+    </plurals>
+    <string name="size_per_file">প্রতি ফাইলের আকার: %1$s</string>
+    <string name="total_group_size">মোট গ্রুপ আকার: %1$s</string>
+    <plurals name="copies_count_suffix">
+        <item quantity="one">+ ১টি কপি</item>
+        <item quantity="other">+ %1$dটি কপি</item>
+    </plurals>
+    <plurals name="similar_count_suffix">
+        <item quantity="one">+ ১টি সাদৃশ্যপূর্ণ</item>
+        <item quantity="other">+ %1$dটি সাদৃশ্যপূর্ণ</item>
+    </plurals>
+    <string name="selection_state">নির্বাচন অবস্থা</string>
+    <string name="primary_image_desc">গ্রুপের প্রধান ছবি</string>
+    <string name="video">ভিডিও</string>
+    <string name="reclaim_space_format">জায়গা খালি হবে: %1$s</string>
+    <string name="files_selected_format">%1$s নির্বাচিত</string>
+    <string name="algorithm_corrected_toast">অ্যালগরিদম সংশোধিত হয়েছে। এগুলো আর একসাথে দেখানো হবে না।</string>
+    <string name="group_hidden_toast">গ্রুপ লুকানো হয়েছে। সদস্য পরিবর্তন না হলে আর দেখাবে না।</string>
+    <string name="notification_permission_required">ব্যাকগ্রাউন্ডে স্ক্যানের অগ্রগতি দেখাতে নোটিফিকেশন অনুমতি প্রয়োজন।</string>
+    <string name="scan_already_in_progress">ইতিমধ্যে একটি স্ক্যান চলছে।</string>
+    <string name="select_one_scan_type">দয়া করে অন্তত একটি স্ক্যানের ধরন নির্বাচন করুন।</string>
+    <string name="scan_cancelled_toast">স্ক্যান বাতিল করা হয়েছে</string>
+    <string name="scan_complete_selection_cleared">স্ক্যান সম্পন্ন হয়েছে। নির্বাচন পরিষ্কার করা হয়েছে।</string>
+    <string name="no_valid_cache_toast">কোনো বৈধ ক্যাশ ফলাফল পাওয়া যায়নি।</string>
+    <string name="no_exact_duplicates_toast">কোনো হুবহু ডুপ্লিকেট পাওয়া যায়নি।</string>
+    <string name="no_duplicates_to_delete_toast">মুছে ফেলার মতো কোনো ডুপ্লিকেট পাওয়া যায়নি।</string>
+    <string name="sorted_media_reset_toast">সাজানো মিডিয়ার ইতিহাস রিসেট করা হয়েছে।</string>
+    <string name="info_icon_desc">তথ্য</string>
+
+    <!-- Session Setup ViewModel -->
+    <string name="failed_load_folders">মিডিয়া ফোল্ডার লোড করতে ব্যর্থ: %1$s</string>
+    <string name="failed_refresh_folders">মিডিয়া ফোল্ডার রিফ্রেশ করতে ব্যর্থ: %1$s</string>
+    <string name="folder_renamed">ফোল্ডারের নাম সফলভাবে পরিবর্তিত হয়েছে</string>
+    <plurals name="moved_files_success_msg">
+        <item quantity="one">১টি ফাইল সরানো হয়েছে।</item>
+        <item quantity="other">%1$dটি ফাইল সরানো হয়েছে।</item>
+    </plurals>
+    <plurals name="moved_files_failed_suffix">
+        <item quantity="one"> ১টি ব্যর্থ হয়েছে।</item>
+        <item quantity="other"> %1$dটি ব্যর্থ হয়েছে।</item>
+    </plurals>
+    <string name="favorites_added_removed_msg" tools:ignore="PluralsCandidate">%1$dটি ফোল্ডার পছন্দে যোগ, %2$dটি সরানো হয়েছে।</string>
+    <plurals name="favorites_added_msg">
+        <item quantity="one">১টি ফোল্ডার পছন্দের তালিকায় যোগ হয়েছে।</item>
+        <item quantity="other">%1$dটি ফোল্ডার পছন্দের তালিকায় যোগ হয়েছে।</item>
+    </plurals>
+    <plurals name="favorites_removed_msg">
+        <item quantity="one">১টি ফোল্ডার পছন্দের তালিকা থেকে সরানো হয়েছে।</item>
+        <item quantity="other">%1$dটি ফোল্ডার পছন্দের তালিকা থেকে সরানো হয়েছে।</item>
+    </plurals>
+    <string name="no_changes_system_folders">কোনো পরিবর্তন হয়নি। সিস্টেম ফোল্ডার পছন্দে যোগ করা যায় না।</string>
+    <string name="folder_hidden_toast">ফোল্ডার লুকানো হয়েছে।</string>
+    <plurals name="folders_hidden_toast">
+        <item quantity="one">১টি ফোল্ডার লুকানো হয়েছে।</item>
+        <item quantity="other">%1$dটি ফোল্ডার লুকানো হয়েছে।</item>
+    </plurals>
+    <string name="favorite_folders_category">পছন্দের ফোল্ডার</string>
+    <string name="system_folders_category">সিস্টেম ফোল্ডার</string>
+    <string name="user_folders_category">ব্যবহারকারীর ফোল্ডার</string>
+
+    <!-- Onboarding Screen -->
+    <string name="onboarding_skip">এড়িয়ে যান</string>
+    <string name="onboarding_previous">পূর্ববর্তী</string>
+    <string name="onboarding_next">পরবর্তী</string>
+    <string name="onboarding_grant_permission">সব ফাইলের অনুমতি দিন</string>
+    <string name="onboarding_get_started">শুরু করুন</string>
+    <string name="onboarding_close_dialog_title">Rony Clean Phone বন্ধ করুন</string>
+    <string name="onboarding_close_dialog_body">সব ফাইলের অ্যাক্সেস অনুমতি ছাড়া Rony Clean Phone সঠিকভাবে কাজ করতে পারে না।</string>
+    <string name="permission_screen_title">সব ফাইলের অনুমতি প্রয়োজন</string>
+    <string name="permission_screen_desc">আপনার ডিভাইসের সব ফোল্ডার থেকে ছবি ও ভিডিও সাজাতে Rony Clean Phone-এর ফাইল অ্যাক্সেস অনুমতি প্রয়োজন।</string>
+    <string name="permission_screen_instruction">Rony Clean Phone ব্যবহার করতে দয়া করে ডিভাইসের সেটিংস থেকে অনুমতি দিন।</string>
+    <string name="open_settings">সেটিংস খুলুন</string>
+
+    <!-- Onboarding Pages (3 screens) -->
+    <string name="onboarding_p1_title">স্লাইপ করে সাজান</string>
+    <string name="onboarding_p1_desc">রাখতে ডানে স্লাইপ করুন, মুছতে বামে। পূর্ণ স্ক্রিনে দেখতে ট্যাপ করুন। ছবি, ভিডিও, অডিও, PDF ও ডকুমেন্ট সবই সমর্থিত।</string>
+    <string name="onboarding_p2_title">ডুপ্লিকেট ও একই ফাইল খুঁজুন</string>
+    <string name="onboarding_p2_desc">হুবহু ডুপ্লিকেট ও দেখতে একইরকম ছবি খুঁজে বের করুন। একসাথে নির্বাচন করে মুছুন ও স্টোরেজ খালি করুন।</string>
+    <string name="onboarding_p3_title">১০০% প্রাইভেট ও অফলাইন</string>
+    <string name="onboarding_p3_desc">আপনার ফাইল কখনো ডিভাইসের বাইরে যায় না। কোনো অ্যাকাউন্ট বা ট্র্যাকিং নেই। মুছে ফেলা ফাইল রিসাইকেল বিনে থাকে।</string>
+
+    <!-- Settings Screen -->
+    <string name="search_settings_placeholder">সেটিংস খুঁজুন…</string>
+    <string name="close_search">খোঁজা বন্ধ করুন</string>
+    <string name="search_settings_icon_desc">সেটিংস খুঁজুন</string>
+    <string name="appearance_section_title">চেহারা ও থিম</string>
+    <string name="behavior_section_title">আচরণ</string>
+    <string name="duplicate_finder_section_title">ডুপ্লিকেট খুঁজুন</string>
+    <string name="advanced_section_title">উন্নত</string>
+    <string name="help_support_section_title">সাহায্য ও সাপোর্ট</string>
+    <string name="media_storage_section_title">মিডিয়া ও স্টোরেজ</string>
+    <string name="storage_management_title">স্টোরেজ</string>
+    <string name="storage_management_desc">স্টোরেজ বিশ্লেষণ, ভলিউম পরীক্ষা ও থ্রেশহোল্ড সেটিংস</string>
+    <string name="about_section_title">অ্যাপ সম্পর্কে</string>
+    <string name="no_settings_found">\"%1$s\"-এর জন্য কোনো সেটিংস পাওয়া যায়নি</string>
+    <string name="appearance_section_desc">থিম, রঙ, ভাষা ও ফোল্ডার লেআউট কাস্টমাইজ করুন</string>
+    <string name="behavior_section_desc">স্লাইপ জেসচার, ফোল্ডার নির্বাচন ও ডিফল্ট কাজ</string>
+    <string name="duplicate_finder_section_desc">সাদৃশ্যের মাত্রা, স্ক্যান পরিসর ও ফোল্ডার তালিকা</string>
+    <string name="media_storage_section_desc">ইনডেক্সিং, ভিডিও প্লেব্যাক ও খোঁজার ধরন</string>
+    <string name="help_support_section_desc">টিউটোরিয়াল, ব্যাকআপ ও পছন্দসমূহ পরিচালনা</string>
+    <string name="permission_manager_header">অনুমতি ব্যবস্থাপক</string>
+    <string name="about_section_desc">সংস্করণ তথ্য, সোর্স কোড ও যোগাযোগ</string>
+    <string name="features_title">বৈশিষ্ট্যসমূহ</string>
+    <string name="feature_swipe">কাস্টমাইজযোগ্য জেসচারসহ স্লাইপ-ভিত্তিক মিডিয়া সাজানো</string>
+    <string name="feature_duplicates">সাদৃশ্য শনাক্তকরণসহ ডুপ্লিকেট ফাইল খোঁজা</string>
+    <string name="feature_cleaner">নির্ধারিত স্ক্যানসহ খালি ফাইল ও ফোল্ডার ক্লিনার</string>
+    <string name="feature_contacts">ডুপ্লিকেট মার্জ ও সমস্যা শনাক্তকরণসহ কন্টাক্ট ক্লিনার</string>
+    <string name="feature_recycle">মুছে ফেলা ফাইল পুনরুদ্ধারের জন্য রিসাইকেল বিন</string>
+    <string name="feature_themes">ডায়নামিক কালার ও অ্যাকসেন্ট কালারসহ কাস্টম থিম</string>
+    <string name="feature_language">বহু-ভাষা সমর্থন (বাংলা ও ইংরেজি)</string>
+    <string name="feature_offline">১০০%% অফলাইন — কোনো ডেটা ডিভাইসের বাইরে যায় না</string>
+    <string name="feature_opensource">GPLv3 লাইসেন্সের অধীনে ওপেন সোর্স</string>
+    <string name="social_section_title">সংযুক্ত থাকুন</string>
+    <string name="cleaner_section_title">ক্লিনার সেটিংস</string>
+    <string name="cleaner_section_desc">খালি ফাইল, জাঙ্ক ফিল্টার, ব্ল্যাকলিস্ট ও হোয়াইটলিস্ট</string>
+    <string name="contact_cleaner_section_title">কন্টাক্ট ক্লিনার</string>
+    <string name="contact_cleaner_section_desc">ডুপ্লিকেট নম্বর, অসম্পূর্ণ তথ্য ও কন্টাক্ট পরিষ্কার</string>
+
+    <!-- Settings Sub-page Section Headers -->
+    <string name="theme_section_header">থিম</string>
+    <string name="layout_section_header">লেআউট</string>
+    <string name="gestures_section_title">সাজানো</string>
+    <string name="gestures_section_desc">স্লাইপ সংবেদনশীলতা, ট্যাপ কাজ ও স্লাইপের ধরন</string>
+    <string name="gestures_section_header">সাজানো</string>
+    <string name="tap_section_header">ট্যাপ</string>
+    <string name="folder_behavior_section_header">ফোল্ডারের আচরণ</string>
+    <string name="search_section_header">অনুসন্ধান</string>
+    <string name="indexing_section_header">ইনডেক্সিং</string>
+    <string name="scan_section_header">স্ক্যানের ধরন</string>
+    <string name="scan_audio_title">অডিও ফাইল স্ক্যান</string>
+    <string name="scan_audio_desc">স্ক্যানে MP3, WAV, FLAC, AAC, OGG, WMA অন্তর্ভুক্ত করুন</string>
+    <string name="scan_video_title">ভিডিও ফাইল স্ক্যান</string>
+    <string name="scan_video_desc">স্ক্যানে MP4, WebM, MKV, MOV, AVI অন্তর্ভুক্ত করুন</string>
+    <string name="scan_document_title">ডকুমেন্ট স্ক্যান</string>
+    <string name="scan_document_desc">স্ক্যানে PDF, DOCX, XLSX, PPTX, TXT অন্তর্ভুক্ত করুন</string>
+    <string name="video_section_header">ভিডিও</string>
+    <string name="onboarding_section_header">পরিচিতি</string>
+    <string name="data_section_header">ডেটা</string>
+
+    <!-- Language Settings -->
+    <string name="language_title">ভাষা</string>
+    <string name="language_desc">আপনার পছন্দের ভাষা নির্বাচন করুন।</string>
+    <string name="language_system">সিস্টেম ডিফল্ট</string>
+    <string name="language_english">English</string>
+    <string name="language_bangla">বাংলা (Bangla)</string>
+    <string name="language_italian">Italiano</string>
+
+    <!-- Theme Settings -->
+    <string name="theme_title">থিম</string>
+    <string name="theme_system_display">সিস্টেম অনুসরণ</string>
+    <string name="theme_light_display">হালকা (Light)</string>
+    <string name="theme_dark_display">ডার্ক (Dark)</string>
+    <string name="theme_darker_display">আরও গাঢ়</string>
+    <string name="theme_amoled_display">অ্যামোলেড (AMOLED)</string>
+    <string name="theme_system_desc">সিস্টেম সেটিংস অনুযায়ী স্বয়ংক্রিয়ভাবে থিম পরিবর্তন হয়</string>
+    <string name="theme_light_desc">উজ্জ্বল ও পরিচ্ছন্ন হালকা থিম</string>
+    <string name="theme_dark_desc">কম আলোতে ব্যবহারের জন্য ডার্ক থিম</string>
+    <string name="theme_darker_desc">মেটেরিয়াল ডিজাইন মানদণ্ডে গাঢ় থিম</string>
+    <string name="theme_amoled_desc">AMOLED স্ক্রিনের জন্য বিশুদ্ধ কালো থিম</string>
+    <string name="dynamic_colors_title">ডায়নামিক রঙ ব্যবহার করুন</string>
+    <string name="dynamic_colors_desc">আপনার সিস্টেম থিমের রঙ ব্যবহার করুন</string>
+    <string name="dynamic_colors_req_android_12">Android 12 বা তার নতুন সংস্করণ প্রয়োজন</string>
+    <string name="accent_color_title">অ্যাকসেন্ট রঙ</string>
+    <string name="customize_colors_title">রঙ কাস্টমাইজ করুন</string>
+
+    <!-- UI Layout Settings -->
+    <string name="folder_name_position_title">ফোল্ডারের নামের অবস্থান</string>
+    <string name="folder_name_position_desc">সাজানোর স্ক্রিনে বর্তমান ফোল্ডারের নাম কোথায় দেখাবে তা নির্বাচন করুন।</string>
+    <string name="folder_name_layout_above">হেডার</string>
+    <string name="folder_name_layout_hidden">লুকানো</string>
+    <string name="compact_folder_view_title">কম্প্যাক্ট ফোল্ডার ভিউ</string>
+    <string name="compact_folder_view_desc">ফোল্ডারগুলো ছোট তালিকা আকারে দেখান</string>
+    <string name="legacy_folder_icons_title">অক্ষর-ভিত্তিক ফোল্ডার আইকন</string>
+    <string name="legacy_folder_icons_desc">ফোল্ডারের নামের প্রথম অক্ষর আইকন হিসেবে দেখান</string>
+    <string name="hide_media_filename_title">ফাইলের নাম লুকান</string>
+    <string name="hide_media_filename_desc">কার্ডের বদলে উপরের ইনফো বারে ফাইলের নাম দেখান</string>
+    <string name="folder_bar_layout_title">ফোল্ডার বার লেআউট</string>
+    <string name="folder_bar_layout_desc">\'সরান\' বারের স্ক্রল দিক নির্বাচন করুন।</string>
+    <string name="layout_horizontal">অনুভূমিক</string>
+    <string name="layout_vertical">উল্লম্ব</string>
+    <string name="skip_partial_expansion_title">আংশিক প্রসারণ এড়িয়ে যান</string>
+    <string name="skip_partial_expansion_desc">সারসংক্ষেপ শীট সরাসরি পূর্ণ আকারে খুলবে।</string>
+    <string name="use_full_screen_summary_title">পূর্ণ-স্ক্রিন সারসংক্ষেপ ব্যবহার করুন</string>
+    <string name="use_full_screen_summary_desc">চালু থাকলে প্রয়োজনে শীটের উচ্চতা পুরো স্ক্রিন জুড়ে দেখাবে।</string>
+
+    <!-- Swipe & Gesture Settings -->
+    <string name="swipe_sensitivity_title">স্লাইপ সংবেদনশীলতা</string>
+    <string name="swipe_sensitivity_desc">কাজ সক্রিয় করতে কতদূর স্লাইপ করতে হবে তা নির্ধারণ করুন।</string>
+    <string name="sensitivity_low">কম</string>
+    <string name="sensitivity_medium">মাঝারি</string>
+    <string name="sensitivity_high">বেশি</string>
+    <string name="swipe_down_action_title">নিচে স্লাইপ কাজ</string>
+    <string name="swipe_down_action_desc">মিডিয়া কার্ডে নিচে স্লাইপ করার জন্য শর্টকাট দিন।</string>
+    <string name="swipe_up_action_title">উপরে স্লাইপ কাজ</string>
+    <string name="swipe_up_action_desc">উপরে স্লাইপ জেসচারের জন্য শর্টকাট দিন (কিছু না, এড়িয়ে যান, পছন্দ)।</string>
+    <string name="swipe_up_action_none">কিছু না</string>
+    <string name="swipe_up_action_skip">এড়িয়ে যান</string>
+    <string name="swipe_up_action_favorite">পছন্দ (Favorites-এ সরান)</string>
+    <string name="left_swipe_action_title">বাম স্লাইপ কাজ</string>
+    <string name="left_swipe_action_desc">বামে স্লাইপ করার কাজ।</string>
+    <string name="right_swipe_action_title">ডান স্লাইপ কাজ</string>
+    <string name="right_swipe_action_desc">ডানে স্লাইপ করার কাজ।</string>
+    <string name="swiper_batch_size_title">স্লাইপার ব্যাচের আকার</string>
+    <string name="swiper_batch_size_desc">মিডিয়াকে ১০ থেকে ৫০টির ব্যাচে ভাগ করুন। প্রতিটি ব্যাচের পর পর্যালোচনা কার্ড দেখায়।</string>
+    <string name="use_recycle_bin_title">রিসাইকেল বিন ব্যবহার করুন</string>
+    <string name="use_recycle_bin_desc">মুছে ফেলা আইটেম রিসাইকেল বিনে সরান। বন্ধ থাকলে সরাসরি মুছে যাবে।</string>
+    <string name="resume_swiping_title">সাজানো পুনরায় শুরু করুন</string>
+    <string name="resume_swiping_desc">%1$s • %2$dটি আইটেম বাকি</string>
+    <string name="resume_action">চালিয়ে যান</string>
+    <string name="action_none">কিছু না</string>
+    <string name="full_screen_swipe_title">পূর্ণ স্ক্রিন স্লাইপ</string>
+    <string name="full_screen_swipe_desc">শুধু ছবি নয়, পেছনের ফাঁকা জায়গায়ও স্লাইপ করার সুবিধা দিন।</string>
+    <string name="tap_action_title">ট্যাপ কাজ</string>
+    <string name="tap_action_desc">মিডিয়ায় একবার ট্যাপ করলে কী হবে নির্বাচন করুন।</string>
+    <string name="double_tap_action_title">ডাবল-ট্যাপ কাজ</string>
+    <string name="double_tap_action_desc">মিডিয়ায় পরপর দুইবার ট্যাপ করলে কী হবে নির্বাচন করুন।</string>
+    <string name="tap_action_play_pause">চালান / থামান</string>
+    <string name="tap_action_none">কিছু না</string>
+    <string name="double_tap_favorite">পছন্দ টগল করুন</string>
+    <string name="double_tap_fullscreen">পূর্ণ স্ক্রিন</string>
+
+    <!-- Video & Media Settings -->
+    <string name="default_video_speed_title">ডিফল্ট ভিডিও গতি</string>
+    <string name="default_video_speed_desc">ভিডিও চলার ডিফল্ট গতি নির্ধারণ করুন।</string>
+    <string name="start_videos_unmuted_title">সাউন্ডসহ ভিডিও চালু করুন</string>
+    <string name="start_videos_unmuted_desc">স্লাইপারে ডিফল্টভাবে অডিওসহ ভিডিও চালু হবে।</string>
+    <string name="open_fullscreen">পূর্ণ স্ক্রিনে খুলুন</string>
+    <string name="fullscreen_desc">পূর্ণ স্ক্রিন</string>
+    <string name="screenshot_deletes_video_title">স্ক্রিনশট মূল ভিডিও মুছবে</string>
+    <string name="screenshot_deletes_video_desc">ভিডিও থেকে স্ক্রিনশট নিলে স্বয়ংক্রিয়ভাবে মূল ভিডিওটি মুছে ফেলার তালিকায় যুক্ত হবে।</string>
+    <string name="screenshot_quality_title">স্ক্রিনশট মান (JPEG)</string>
+    <string name="screenshot_quality_desc">উচ্চ মানে ফাইলের আকার বড় হয়। ডিফল্ট হলো ৯০।</string>
+    <string name="quality_high">উচ্চ (95)</string>
+    <string name="quality_good">ভালো (90)</string>
+    <string name="quality_balanced">ভারসাম্যপূর্ণ (85)</string>
+    <string name="quality_low">কম (75)</string>
+
+    <!-- Folder Selection Settings -->
+    <string name="folder_selection_mode_title">ফোল্ডার নির্বাচনের ধরন</string>
+    <string name="mode_all_folders">সব ফোল্ডার</string>
+    <string name="mode_remember_previous">আগেরগুলো মনে রাখুন</string>
+    <string name="mode_none">কোনোটিই নয়</string>
+    <string name="desc_mode_all">ডিফল্টভাবে সব ফোল্ডার নির্বাচন করুন</string>
+    <string name="desc_mode_remember">আগের নির্বাচিত ফোল্ডারগুলো মনে রেখে নির্বাচন করুন</string>
+    <string name="desc_mode_none">ডিফল্টভাবে কোনো ফোল্ডার নির্বাচন করবেন না</string>
+    <string name="invert_swipe_title">স্লাইপ কাজ উল্টে দিন</string>
+    <string name="invert_swipe_desc">স্লাইপ কাজ উল্টান: রাখতে বামে, মুছতে ডানে</string>
+    <string name="hide_skip_button_title">এড়িয়ে যান বোতাম লুকান</string>
+    <string name="hide_skip_button_desc">চালু থাকলে নিচের বার থেকে \'এড়িয়ে যান\' বোতাম লুকানো থাকবে।</string>
+    <string name="hide_action_buttons_title">অ্যাকশন বোতাম লুকান</string>
+    <string name="hide_action_buttons_desc">চালু থাকলে মুছুন ও রাখুন বোতাম লুকানো থাকবে।</string>
+    <string name="file_types_to_scan">স্ক্যান করার ফাইলের ধরন</string>
+    <string name="images">ছবি</string>
+    <string name="videos">ভিডিও</string>
+    <string name="audios">অডিও</string>
+    <string name="documents">ডকুমেন্ট</string>
+    <string name="add_fav_by_default_title">ডিফল্টভাবে পছন্দে যোগ করুন</string>
+    <string name="add_fav_by_default_desc">নতুন টার্গেট ফোল্ডার যোগ করার সময় পছন্দে যোগ করার টগল চালু রাখুন।</string>
+    <string name="unfav_removes_from_bar_title">অপছন্দ করলে বার থেকেও সরবে</string>
+    <string name="unfav_removes_from_bar_desc">চালু থাকলে পছন্দের তালিকা থেকে সরানো ফোল্ডার সেশন থেকেও লুকানো হবে।</string>
+    <string name="hint_on_existing_folder_title">বিদ্যমান ফোল্ডারের নামের ইঙ্গিত</string>
+    <string name="hint_on_existing_folder_desc">টাইপ করার সময় একই নামের ফোল্ডার থাকলে ইঙ্গিত দেখান।</string>
+    <string name="initial_dialog_focus_title">ডায়ালগের প্রথম ফোকাস</string>
+    <string name="initial_dialog_focus_desc">ফোল্ডার যোগ করার সময় কোন ঘরে প্রথমে কার্সর থাকবে তা বেছে নিন।</string>
+    <string name="focus_search_path">খোঁজার পথ</string>
+    <string name="focus_folder_name">নতুন ফোল্ডারের নাম</string>
+    <string name="show_favorites_setup_title">সেটআপে পছন্দ দেখান</string>
+    <string name="show_favorites_setup_desc">সেটআপ করার সময় পছন্দের ফোল্ডারগুলো উপরে দেখান</string>
+    <string name="default_album_location_title">ডিফল্ট অ্যালবাম অবস্থান</string>
+    <string name="default_album_location_desc">নতুন অ্যালবাম তৈরি করার ডিফল্ট ফোল্ডার নির্বাচন করুন।</string>
+    <string name="search_custom_folder">কাস্টম ফোল্ডার খুঁজুন</string>
+    <string name="no_default_folder_selected">কোনো ডিফল্ট ফোল্ডার নির্বাচিত নয়</string>
+    <string name="current_path_prefix">বর্তমান: %1$s</string>
+    <string name="remember_organized_media_title">সাজানো মিডিয়া মনে রাখুন</string>
+    <string name="remember_organized_media_desc">ভবিষ্যতের সেশনে আগেই সরানো মিডিয়া দেখানো এড়িয়ে যান</string>
+    <string name="reset_organized_media_history">সব সাজানো মিডিয়ার ইতিহাস রিসেট করুন</string>
+    <string name="forget_sorted_media_folder_title">ফোল্ডারের সাজানো মিডিয়া ভুলে যান</string>
+    <string name="forget_sorted_media_folder_desc">আবার সাজানোর জন্য দেখাতে একটি ফোল্ডার বেছে নিন।</string>
+    <string name="select_folder_to_forget">ভুলে যাওয়ার জন্য ফোল্ডার নির্বাচন করুন</string>
+    <string name="search_autofocus_title">অনুসন্ধানে স্বয়ংক্রিয় ফোকাস</string>
+    <string name="search_autofocus_desc">অ্যাপ খোলার সময় অনুসন্ধান বারে সরাসরি ফোকাস করুন</string>
+    <string name="unselect_all_behavior_title">অনুসন্ধানে \'সব অনির্বাচন\' আচরণ</string>
+    <string name="unselect_everything">সবকিছু অনির্বাচন করুন</string>
+    <string name="unselect_visible_only">শুধু দৃশ্যমানগুলো অনির্বাচন করুন</string>
+    <string name="desc_unselect_global">বর্তমান ফিল্টারে লুকানো আইটেমসহ সম্পূর্ণ নির্বাচন পরিষ্কার করে।</string>
+    <string name="desc_unselect_visible">শুধু অনুসন্ধানের ফলাফলে দৃশ্যমান আইটেম অনির্বাচন করে।</string>
+
+    <!-- Duplicate Finder Settings -->
+    <string name="similarity_level_title">সাদৃশ্যের মাত্রা</string>
+    <string name="similarity_level_strict">কঠোর</string>
+    <string name="similarity_level_balanced">ভারসাম্যপূর্ণ</string>
+    <string name="similarity_level_loose">শিথিল</string>
+    <string name="similarity_level_strict_desc">কম মিল, তবে ভুল ফলাফলের সম্ভাবনা খুবই কম।</string>
+    <string name="similarity_level_balanced_desc">সঠিকতা এবং মিলের সংখ্যার মধ্যে ভালো ভারসাম্য।</string>
+    <string name="similarity_level_loose_desc">বেশি মিল দেখাবে, তবে ভিন্ন ছবিও আসতে পারে।</string>
+    <string name="scan_scope_title">স্ক্যান পরিসর</string>
+    <string name="scan_scope_all">সব ফাইল স্ক্যান করুন</string>
+    <string name="scan_scope_include">নির্দিষ্ট ফোল্ডার অন্তর্ভুক্ত করুন</string>
+    <string name="scan_scope_exclude">নির্দিষ্ট ফোল্ডার বাদ দিন</string>
+    <string name="scan_scope_all_desc">আপনার ডিভাইসের সব মিডিয়া স্ক্যান করুন।</string>
+    <plurals name="scan_scope_include_desc">
+        <item quantity="one">শুধুমাত্র নির্বাচিত ১টি ফোল্ডারের মিডিয়া স্ক্যান করুন।</item>
+        <item quantity="other">শুধুমাত্র নির্বাচিত %1$dটি ফোল্ডারের মিডিয়া স্ক্যান করুন।</item>
+    </plurals>
+    <plurals name="scan_scope_exclude_desc">
+        <item quantity="one">নির্বাচিত ১টি ফোল্ডার ছাড়া বাকি সব মিডিয়া স্ক্যান করুন।</item>
+        <item quantity="other">নির্বাচিত %1$dটি ফোল্ডার ছাড়া বাকি সব মিডিয়া স্ক্যান করুন।</item>
+    </plurals>
+    <string name="manage_include_list">অন্তর্ভুক্তির তালিকা</string>
+    <string name="manage_exclude_list">বাদ দেওয়ার তালিকা</string>
+    <string name="manage_list_format">%1$s (%2$d)</string>
+
+    <!-- Advanced Settings -->
+    <string name="media_indexing_status_title">মিডিয়া ইনডেক্সিং অবস্থা</string>
+    <string name="export_target_favorites_title">টার্গেট পছন্দ এক্সপোর্ট করুন</string>
+    <string name="export_target_favorites_desc">আপনার পছন্দের টার্গেট ফোল্ডারগুলো ফাইলে সংরক্ষণ করুন।</string>
+    <string name="import_target_favorites_title">টার্গেট পছন্দ ইম্পোর্ট করুন</string>
+    <string name="import_target_favorites_desc">ফাইল থেকে পছন্দের টার্গেট ফোল্ডার লোড করুন।</string>
+    <string name="reset_dialog_warnings_title">ডায়ালগ সতর্কতা রিসেট করুন</string>
+    <string name="reset_dialog_warnings_desc">সব নিশ্চিতকরণ ডায়ালগ আবার দেখান।</string>
+
+    <!-- Help & Support Settings -->
+    <string name="onboarding_tutorial_title">পরিচিতি টিউটোরিয়াল</string>
+    <string name="onboarding_tutorial_desc">অ্যাপের ফিচার জানতে পরিচিতি টিউটোরিয়াল আবার দেখুন।</string>
+    <string name="replay_tutorial_button">টিউটোরিয়াল আবার দেখুন</string>
+
+    <!-- About Settings -->
+    <string name="support_development_title">ডেভেলপমেন্টে সহায়তা করুন</string>
+    <string name="support_development_desc">প্রকল্পটিতে সহায়তা করুন</string>
+    <string name="version_title">সংস্করণ</string>
+    <string name="app_version_copied">অ্যাপ সংস্করণ কপি হয়েছে: %1$s</string>
+    <string name="about_cleanify_title">Rony Clean Phone সম্পর্কে</string>
+    <string name="about_cleanify_desc">Rony Clean Phone সম্পর্কে আরও জানুন</string>
+    <string name="github_title">GitHub</string>
+    <string name="github_summary">github.com/LoopOtto/Cleanify</string>
+    <string name="gitlab_title">GitLab</string>
+    <string name="gitlab_summary">gitlab.com/LoopOtto/Cleanify (read-only mirror)</string>
+    <string name="open_source_licenses_title">ওপেন-সোর্স লাইসেন্স</string>
+    <string name="open_source_licenses_desc">ওপেন-সোর্স লাইসেন্স দেখুন</string>
+
+    <!-- Settings Dialogs & Toasts -->
+    <string name="onboarding_replay_toast">পরবর্তী বার অ্যাপ চালু হলে টিউটোরিয়াল দেখানো হবে।</string>
+    <string name="no_target_favs_export">এক্সপোর্ট করার জন্য কোনো টার্গেট পছন্দ নেই।</string>
+    <string name="no_existing_favs_export">এক্সপোর্ট করার মতো কোনো বিদ্যমান পছন্দের ফোল্ডার পাওয়া যায়নি।</string>
+    <plurals name="exported_favs_toast">
+        <item quantity="one">১টি পছন্দ এক্সপোর্ট হয়েছে।</item>
+        <item quantity="other">%1$dটি পছন্দ এক্সপোর্ট হয়েছে।</item>
+    </plurals>
+    <plurals name="exported_favs_skipped_suffix">
+        <item quantity="one"> ১টি অস্তিত্বহীন পছন্দ এড়িয়ে যাওয়া হয়েছে।</item>
+        <item quantity="other"> %1$dটি অস্তিত্বহীন পছন্দ এড়িয়ে যাওয়া হয়েছে।</item>
+    </plurals>
+    <string name="import_no_paths_found">নির্বাচিত ফাইলে কোনো বৈধ ফোল্ডার পথ পাওয়া যায়নি।</string>
+    <plurals name="imported_favs_success">
+        <item quantity="one">১টি পছন্দ সফলভাবে ইম্পোর্ট হয়েছে।</item>
+        <item quantity="other">%1$dটি পছন্দ সফলভাবে ইম্পোর্ট হয়েছে।</item>
+    </plurals>
+    <plurals name="imported_favs_missing">
+        <item quantity="one">১টি ফোল্ডার ইম্পোর্ট হয়েছে। ফোল্ডারটি স্টোরেজে পাওয়া যায়নি।</item>
+        <item quantity="other">%1$dটি ফোল্ডার ইম্পোর্ট হয়েছে। কিছু ফোল্ডার পাওয়া যায়নি।</item>
+    </plurals>
+    <string name="import_invalid_format">ইম্পোর্ট ব্যর্থ: ভুল ফাইল ফরম্যাট।</string>
+    <plurals name="created_missing_folders_toast">
+        <item quantity="one">১টি অনুপস্থিত ফোল্ডার তৈরি ও ইম্পোর্ট হয়েছে।</item>
+        <item quantity="other">%1$dটি অনুপস্থিত ফোল্ডার তৈরি ও ইম্পোর্ট হয়েছে।</item>
+    </plurals>
+    <string name="could_not_create_folders">অনুপস্থিত ফোল্ডারগুলো তৈরি করা যায়নি।</string>
+    <string name="folder_list_refreshed_toast">ফোল্ডার তালিকা রিফ্রেশ হয়েছে, অনুগ্রহ করে ডায়ালগ আবার খুলুন।</string>
+    <string name="no_history_to_reset">রিসেট করার মতো কোনো সাজানো মিডিয়ার ইতিহাস নেই।</string>
+    <string name="all_dialog_warnings_reset">সব ডায়ালগ সতর্কতা রিসেট করা হয়েছে।</string>
+    <string name="sorted_history_reset_success">সাজানো মিডিয়ার ইতিহাস রিসেট করা হয়েছে।</string>
+    <string name="folder_history_forgotten">\'%1$s\'-এর সাজানো ইতিহাস মুছে ফেলা হয়েছে।</string>
+    <string name="no_source_favs_to_reset">রিসেট করার মতো কোনো সোর্স পছন্দ নেই।</string>
+    <string name="source_favs_cleared">সোর্স ফোল্ডারের পছন্দ পরিষ্কার করা হয়েছে।</string>
+    <string name="no_target_favs_to_reset">রিসেট করার মতো কোনো টার্গেট পছন্দ নেই।</string>
+    <string name="target_favs_cleared">টার্গেট ফোল্ডারের পছন্দ পরিষ্কার করা হয়েছে।</string>
+    <string name="full_device_scan_complete">সম্পূর্ণ ডিভাইস স্ক্যান শেষ হয়েছে।</string>
+    <string name="scan_failed_interrupted">স্ক্যান ব্যর্থ হয়েছে বা বাধাগ্রস্ত হয়েছে।</string>
+
+    <!-- Advanced Dialogs -->
+    <string name="some_folders_not_found_title">কিছু ফোল্ডার পাওয়া যায়নি</string>
+    <string name="some_folders_not_found_body">আপনার ব্যাকআপ ফাইলের নিচের ফোল্ডারগুলো ডিভাইসে নেই। আপনি কি সেগুলো তৈরি করতে চান?</string>
+    <string name="reset_all_warnings_title">সব ডায়ালগ সতর্কতা রিসেট করবেন?</string>
+    <string name="reset_all_warnings_body">এটি সব নিশ্চিতকরণ ডায়ালগ আবার দেখাবে, এমনকি আপনি \'আবার জিজ্ঞাসা করবেন না\' নির্বাচন করলেও।</string>
+    <string name="reset_history_title">সাজানো মিডিয়ার ইতিহাস রিসেট করবেন?</string>
+    <string name="reset_history_body">এটি আপনার সাজানো সব মিডিয়ার রেকর্ড মুছে ফেলবে এবং নতুন সেশনে সেগুলো আবার দেখাবে। এটি ফেরানো যাবে না।</string>
+    <string name="reset_source_favs_title">সোর্স পছন্দ রিসেট করবেন?</string>
+    <string name="reset_source_favs_body">আপনি কি নিশ্চিত যে সব সোর্স ফোল্ডারের পছন্দ মুছে ফেলতে চান? এটি ফেরানো যাবে না।</string>
+    <string name="reset_target_favs_title">টার্গেট পছন্দ রিসেট করবেন?</string>
+    <string name="reset_target_favs_body">আপনি কি নিশ্চিত যে সব টার্গেট ফোল্ডারের পছন্দ মুছে ফেলতে চান? এটি ফেরানো যাবে না।</string>
+    <string name="no_folders_added_to_list">এই তালিকায় কোনো ফোল্ডার যোগ করা হয়নি। এই সেটিং বন্ধ থাকার মতোই স্ক্যান চলবে।</string>
+    <string name="add_folder">ফোল্ডার যোগ করুন</string>
+    <string name="unindexed_files_dialog_title">আন-ইনডেক্সড মিডিয়া ফাইল</string>
+    <string name="unindexed_files_ideal_state">কোনো আন-ইনডেক্সড ব্যবহারকারী ফাইল পাওয়া যায়নি। বাকিগুলো সাধারণত লুকানো সিস্টেম বা অস্থায়ী ফাইল।</string>
+    <string name="no_unindexed_files_found">আপনার ডিভাইসে কোনো আন-ইনডেক্সড ফাইল পাওয়া যায়নি।</string>
+    <string name="unindexed_files_system_desc">এই ফাইলগুলো ডিভাইসে আছে কিন্তু MediaStore জানে না।</string>
+    <string name="unindexed_files_user_desc">এই ফাইলগুলো ডিভাইসে আছে কিন্তু MediaStore ইনডেক্সে নেই। স্ক্যান করলে এগুলো যুক্ত হতে পারে।</string>
+    <string name="indexing_status_scanning">আন-ইনডেক্সড মিডিয়ার জন্য স্ক্যান করা হচ্ছে…</string>
+    <string name="indexing_status_loading">অবস্থা লোড হচ্ছে…</string>
+    <string name="indexing_status_initial">অবস্থা দেখতে রিফ্রেশ আইকনে চাপুন।</string>
+    <string name="indexing_status_format">ইনডেক্স করা মিডিয়া: %2$s ফাইলের মধ্যে %1$s (%3$s)</string>
+    <plurals name="indexing_status_unindexed_count">
+        <item quantity="one">১টি ফাইল MediaStore ইনডেক্সে নেই।</item>
+        <item quantity="other">%1$dটি ফাইল MediaStore ইনডেক্সে নেই।</item>
+    </plurals>
+    <string name="indexing_status_breakdown" tools:ignore="PluralsCandidate">(%1$dটি ব্যবহারকারী ফাইল, %2$dটি লুকানো/সিস্টেম ফাইল)</string>
+    <string name="indexing_status_all_indexed">সব মিডিয়া ফাইল MediaStore-এ জানা আছে।</string>
+    <string name="refresh_scan_icon_desc">অবস্থা রিফ্রেশ / এখনই স্ক্যান করুন</string>
+    <string name="funding_dialog_title">ডেভেলপমেন্টে সহায়তা করুন</string>
+    <string name="funding_dialog_body">Rony Clean Phone সম্পূর্ণ ফ্রি এবং ওপেন সোর্স। ভালো লাগলে সহায়তার কথা বিবেচনা করুন।</string>
+    <string name="address_copied">ঠিকানা কপি হয়েছে</string>
+    <string name="copy_address_icon_desc">ঠিকানা কপি করুন</string>
+    <string name="funding_dialog_footer">লেনদেনের বিবরণে আপনার GitHub নাম দিতে পারেন!</string>
+
+    <string name="shortcut_quick_clean">দ্রুত পরিষ্কার</string>
+    <string name="shortcut_quick_clean_long">দ্রুত পরিষ্কার — জাঙ্ক ফাইল সরান</string>
+    <string name="shortcut_find_duplicates">ডুপ্লিকেট খুঁজুন</string>
+    <string name="shortcut_find_duplicates_long">ডুপ্লিকেট ফাইল খুঁজুন</string>
+    <string name="shortcut_contact_cleaner">কন্টাক্ট ক্লিনার</string>
+    <string name="shortcut_contact_cleaner_long">আপনার কন্টাক্ট পরিষ্কার করুন</string>
+    <string name="shortcut_recycle_bin">রিসাইকেল বিন</string>
+    <string name="shortcut_recycle_bin_long">রিসাইকেল বিন দেখুন</string>
+    <string name="shortcut_disabled">এই শর্টকাটটি বর্তমানে নিষ্ক্রিয়।</string>
+    <string name="accessibility_section_header">অ্যাক্সেসিবিলিটি</string>
+    <string name="reduce_animations_title">অ্যানিমেশন কমান</string>
+    <string name="reduce_animations_desc">পুরো অ্যাপ জুড়ে অ্যানিমেশন কমিয়ে আনুন</string>
+    <string name="immersive_mode_title">ইমার্সিভ মোড</string>
+    <string name="immersive_mode_desc">স্লাইপারে পূর্ণ স্ক্রিন অভিজ্ঞতার জন্য স্ট্যাটাস বার ও নেভিগেশন বার লুকান</string>
+    <string name="hide_from_gallery_title">গ্যালারি থেকে লুকান</string>
+    <string name="hide_from_gallery_desc">রিসাইকেল বিনের ছবি ও ভিডিও গ্যালারি বা মিউজিক প্লেয়ারে দেখানো বন্ধ করে (সুপারিশকৃত)</string>
+    <string name="widget_description">Rony Clean Phone-এর দ্রুত অ্যাকশন</string>
+    <string name="widget_quick_clean">দ্রুত পরিষ্কার</string>
+    <string name="widget_duplicates">ডুপ্লিকেট</string>
+    <string name="widget_recycle_bin">রিসাইকেল বিন</string>
+
+    <!-- Privacy Policy / About -->
+    <string name="privacy_policy_title">গোপনীয়তা নীতি</string>
+    <string name="privacy_policy_desc">অনলাইনে আমাদের গোপনীয়তা নীতি দেখুন</string>
+    <string name="privacy_policy_url">https://home-cleanify.vercel.app/privacy.html</string>
+    <string name="terms_of_use_title">ব্যবহারের শর্তাবলী</string>
+    <string name="terms_of_use_desc">এই অ্যাপের ব্যবহারের শর্তাবলী দেখুন</string>
+
+    <!-- Empty States -->
+    <string name="empty_duplicates_title">কোনো ডুপ্লিকেট পাওয়া যায়নি</string>
+    <string name="empty_duplicates_desc">আপনার লাইব্রেরি পরিষ্কার! কোনো হুবহু ডুপ্লিকেট ফাইল পাওয়া যায়নি।</string>
+    <string name="rescan_duplicates">আবার স্ক্যান করুন</string>
+    <string name="empty_similar_title">কোনো একই ধরনের ফাইল নেই</string>
+    <string name="empty_similar_desc">বর্তমান সংবেদনশীলতায় দেখতে একইরকম কোনো ফাইল পাওয়া যায়নি।</string>
+    <string name="empty_recycle_bin_title">রিসাইকেল বিন খালি</string>
+    <string name="empty_recycle_bin_desc">মুছে ফেলা আইটেম এখানে থাকে। ৩০ দিনের মধ্যে পুনরুদ্ধার করতে পারবেন।</string>
+    <string name="empty_swiper_title">পর্যালোচনার জন্য কোনো মিডিয়া নেই</string>
+    <string name="empty_swiper_desc">সাজানো শুরু করতে সেশন সেটআপে ফোল্ডার যোগ করুন।</string>
+    <string name="empty_search_title">কোনো ফলাফল নেই</string>
+    <string name="empty_search_desc">আপনার খোঁজার সাথে কোনো ফাইল মেলেনি। ভিন্ন শব্দ বা ফিল্টার চেষ্টা করুন।</string>
+    <string name="empty_generic_title">এখানে কিছু নেই</string>
+    <string name="empty_generic_desc">এই মুহূর্তে দেখানোর মতো কোনো আইটেম নেই।</string>
+
+    <!-- Feedback & Support -->
+    <string name="feedback_and_support_title">মতামত ও সাপোর্ট</string>
+    <string name="feedback_and_support_desc">সমস্যা জানান, পরামর্শ দিন বা নতুন ফিচার অনুরোধ করুন।</string>
+    <string name="feedback_type_bug">বাগ রিপোর্ট</string>
+    <string name="feedback_type_feature">ফিচার অনুরোধ</string>
+    <string name="feedback_type_suggestion">পরামর্শ</string>
+    <string name="feedback_type_general">সাধারণ মতামত</string>
+    <string name="feedback_dialog_title">মতামত পাঠান</string>
+    <string name="feedback_category_label">বিভাগ</string>
+    <string name="feedback_subject_label">বিষয়</string>
+    <string name="feedback_description_label">বিবরণ</string>
+    <string name="feedback_send_button">ইমেইলে পাঠান</string>
+    <string name="feedback_device_info_included">ডিভাইস ও অ্যাপের ডায়াগনস্টিক তথ্য স্বয়ংক্রিয়ভাবে যুক্ত হবে।</string>
+    <string name="feedback_no_email_client">ডিভাইসে কোনো ইমেইল অ্যাপ পাওয়া যায়নি।</string>
+
+    <!-- PDF Viewer -->
+    <string name="pdf_preview_tap_to_open">অ্যাপে খুলতে ট্যাপ করুন</string>
+    <string name="pdf_page_n_of_total">%2$d এর %1$d পৃষ্ঠা</string>
+    <string name="pdf_pages_count">%1$d পৃষ্ঠা</string>
+    <string name="pdf_single_page">১ পৃষ্ঠা</string>
+
+    <!-- Auto Update Check -->
+    <string name="auto_update_check_title">স্বয়ংক্রিয় আপডেট পরীক্ষা</string>
+    <string name="auto_update_check_desc">নতুন সংস্করণের জন্য নিয়মিত GitHub পরীক্ষা করুন</string>
+    <string name="update_interval_never">কখনও না</string>
+    <string name="update_interval_daily">প্রতিদিন</string>
+    <string name="update_interval_2_days">প্রতি ২ দিন পর</string>
+    <string name="update_interval_3_days">প্রতি ৩ দিন পর</string>
+    <string name="update_interval_5_days">প্রতি ৫ দিন পর</string>
+    <string name="update_interval_weekly">প্রতি ৭ দিন পর (সাপ্তাহিক)</string>
+
+    <!-- Contact & Display Modes -->
+    <string name="contact_with_me_title">Contact with me</string>
+    <string name="whatsapp_contact_section_header">যোগাযোগ</string>
+    <string name="whatsapp_tap_to_open">হোয়াটসঅ্যাপে চ্যাট করতে আইকনে ক্লিক করুন</string>
+    <string name="whatsapp_number_not_set">আপনার হোয়াটসঅ্যাপ নম্বর সেট করতে ট্যাপ করুন</string>
+    <string name="whatsapp_edit_number_title">হোয়াটসঅ্যাপ নম্বর</string>
+    <string name="whatsapp_edit_number_hint">কান্ট্রি কোডসহ দিন (যেমন +8801637360712)</string>
+    <string name="whatsapp_edit_number_desc">এই নম্বরটি Contact with me-এর নিচে দেখাবে এবং ট্যাপ করলে সরাসরি হোয়াটসঅ্যাপে নিয়ে যাবে।</string>
+    <string name="whatsapp_invalid_number">দয়া করে একটি সঠিক হোয়াটসঅ্যাপ নম্বর লিখুন</string>
+    <string name="whatsapp_not_installed">এই ডিভাইসে হোয়াটসঅ্যাপ ইনস্টল করা নেই</string>
+    <string name="whatsapp_open_chat">হোয়াটসঅ্যাপ খুলুন</string>
+    <string name="whatsapp_save">সংরক্ষণ করুন</string>
+    <string name="display_modes_section_header">ডিসপ্লে ও চোখের সুরক্ষা</string>
+    <string name="dark_mode_title">ডার্ক মোড (Dark Mode)</string>
+    <string name="dark_mode_desc">হালকা ও গাঢ় থিমের মধ্যে সহজেই পরিবর্তন করুন</string>
+    <string name="eye_saver_title">আই সেভার (Eye Saver)</string>
+    <string name="eye_saver_desc">চোখের চাপ কমাতে উষ্ণ নীল-আলো ফিল্টার</string>
+    <string name="eye_saver_intensity_title">আই সেভার উষ্ণতার মাত্রা</string>
+    <string name="eye_saver_intensity_desc">উষ্ণ ফিল্টারের তীব্রতা সামঞ্জস্য করুন (%1$d%%)</string>
+
+</resources>

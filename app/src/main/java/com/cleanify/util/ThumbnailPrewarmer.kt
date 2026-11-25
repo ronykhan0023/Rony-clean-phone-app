@@ -74,9 +74,13 @@ class ThumbnailPrewarmer @Inject constructor(
             mediaItems.forEach { item ->
                 if (item.uri.scheme == "content") {
                     try {
-                        // The size is a standard thumbnail size. We discard the result;
-                        // the act of calling this method forces the generation.
-                        contentResolver.loadThumbnail(item.uri, Size(256, 256), null)
+                        ThumbnailCompat.loadThumbnail(
+                            context = context,
+                            uri = item.uri,
+                            sizePx = 256,
+                            isVideo = item.isVideo,
+                            filePath = item.id
+                        )
                         prewarmedCount++
                     } catch (e: Exception) {
                         // This can happen if the file is corrupt, already deleted, etc.

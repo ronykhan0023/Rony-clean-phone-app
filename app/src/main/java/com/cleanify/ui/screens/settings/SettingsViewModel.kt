@@ -95,7 +95,8 @@ data class SettingsUiState(
     val isSearchingForIncludeList: Boolean = true,
     val unindexedFilePaths: List<String> = emptyList(),
     val showUnindexedFilesDialog: Boolean = false,
-    val showHiddenUnindexedFiles: Boolean = false
+    val showHiddenUnindexedFiles: Boolean = false,
+    val showWhatsappEditDialog: Boolean = false
 )
 
 @OptIn(FlowPreview::class)
@@ -155,6 +156,27 @@ class SettingsViewModel @Inject constructor(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = "DEFAULT_BLUE"
+        )
+
+    val eyeSaverEnabled: StateFlow<Boolean> = preferencesRepository.eyeSaverEnabledFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false
+        )
+
+    val eyeSaverIntensity: StateFlow<Float> = preferencesRepository.eyeSaverIntensityFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0.35f
+        )
+
+    val whatsappContactNumber: StateFlow<String> = preferencesRepository.whatsappContactNumberFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = PreferencesRepository.DEFAULT_WHATSAPP_NUMBER
         )
 
     val compactFolderView: StateFlow<Boolean> = preferencesRepository.compactFolderViewFlow
@@ -687,6 +709,39 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             preferencesRepository.setTheme(theme)
         }
+    }
+
+    fun setDarkModeEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            val targetTheme = if (enabled) AppTheme.DARK else AppTheme.LIGHT
+            preferencesRepository.setTheme(targetTheme)
+        }
+    }
+
+    fun setEyeSaverEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            preferencesRepository.setEyeSaverEnabled(enabled)
+        }
+    }
+
+    fun setEyeSaverIntensity(intensity: Float) {
+        viewModelScope.launch {
+            preferencesRepository.setEyeSaverIntensity(intensity)
+        }
+    }
+
+    fun setWhatsappContactNumber(number: String) {
+        viewModelScope.launch {
+            preferencesRepository.setWhatsappContactNumber(number)
+        }
+    }
+
+    fun showWhatsappEditDialog() {
+        _uiState.update { it.copy(showWhatsappEditDialog = true) }
+    }
+
+    fun dismissWhatsappEditDialog() {
+        _uiState.update { it.copy(showWhatsappEditDialog = false) }
     }
 
     fun setAppLocale(locale: AppLocale) {

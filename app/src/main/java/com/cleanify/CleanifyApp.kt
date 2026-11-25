@@ -17,7 +17,10 @@
 
 package com.cleanify
 
+import android.app.ActivityManager
 import android.app.Application
+import android.content.Context
+import android.os.Build
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.decode.VideoFrameDecoder
@@ -29,20 +32,24 @@ import dagger.hilt.android.HiltAndroidApp
 class CleanifyApp : Application(), ImageLoaderFactory {
 
     override fun newImageLoader(): ImageLoader {
+        val am = getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+        val isConstrained = am?.isLowRamDevice == true || Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+        val memoryCachePercent = if (isConstrained) 0.15 else 0.25
+        val diskCacheBytes = if (isConstrained) 150L * 1024 * 1024 else 512L * 1024 * 1024
+
         return ImageLoader.Builder(this)
             .components {
                 add(VideoFrameDecoder.Factory())
             }
             .memoryCache {
                 MemoryCache.Builder(this)
-                    // 25% of available memory for cache
-                    .maxSizePercent(0.25)
+                    .maxSizePercent(memoryCachePercent)
                     .build()
             }
             .diskCache {
                 DiskCache.Builder()
                     .directory(cacheDir.resolve("image_cache"))
-                    .maxSizeBytes(512L * 1024 * 1024) // 512MB
+                    .maxSizeBytes(diskCacheBytes)
                     .build()
             }
             .crossfade(true)

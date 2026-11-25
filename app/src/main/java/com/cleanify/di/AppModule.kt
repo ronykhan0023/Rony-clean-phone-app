@@ -17,6 +17,7 @@
 
 package com.cleanify.di
 
+import android.app.ActivityManager
 import android.content.Context
 import android.os.Build
 import androidx.work.WorkManager
@@ -64,17 +65,21 @@ object AppModule {
     @Provides
     @Singleton
     fun provideImageLoader(@ApplicationContext context: Context): ImageLoader {
-        val diskCacheSize = 200 * 1024 * 1024 // 200MB
+        val am = context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+        val isConstrained = am?.isLowRamDevice == true || Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+        val memoryCachePercent = if (isConstrained) 0.15 else 0.25
+        val diskCacheSize = if (isConstrained) 150L * 1024 * 1024 else 200L * 1024 * 1024
         return ImageLoader.Builder(context)
             .components {
                 add(VideoFrameDecoder.Factory())
             }
             .memoryCache {
-                MemoryCache.Builder(context).maxSizePercent(0.25).build()
+                MemoryCache.Builder(context).maxSizePercent(memoryCachePercent).build()
             }
             .diskCache {
-                DiskCache.Builder().directory(context.cacheDir.resolve("image_cache")).maxSizeBytes(diskCacheSize.toLong()).build()
+                DiskCache.Builder().directory(context.cacheDir.resolve("image_cache")).maxSizeBytes(diskCacheSize).build()
             }
+            .allowRgb565(true)
             .respectCacheHeaders(false)
             .build()
     }

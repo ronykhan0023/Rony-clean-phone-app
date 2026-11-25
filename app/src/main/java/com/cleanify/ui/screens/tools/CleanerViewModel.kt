@@ -13,6 +13,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cleanify.data.cleaner.CleanerPreferences
 import com.cleanify.data.cleaner.FileScanner
+import com.cleanify.util.StorageVolumeCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -347,7 +348,7 @@ class CleanerViewModel(application: Application) : AndroidViewModel(application)
         val volumes = mutableListOf<StorageVolumeEntry>()
         val storageManager = app.getSystemService(Context.STORAGE_SERVICE) as StorageManager
         for (sv: StorageVolume in storageManager.storageVolumes) {
-            val dir = sv.directory ?: continue
+            val dir = StorageVolumeCompat.resolveDirectory(sv) ?: continue
             if (dir.isDirectory && dir.canRead()) {
                 volumes.add(StorageVolumeEntry(dir, sv.getDescription(app), sv.isPrimary))
             }

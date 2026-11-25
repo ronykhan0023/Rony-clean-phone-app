@@ -49,6 +49,36 @@ data class SearchableSettingItem(
 val allSearchableSettings = listOf(
     // Appearance
     SearchableSettingItem(
+        id = "dark_mode",
+        titleRes = R.string.dark_mode_title,
+        descRes = R.string.dark_mode_desc,
+        sectionId = "appearance",
+        sectionTitleRes = R.string.appearance_section_title,
+        icon = Icons.Default.DarkMode,
+        itemType = SettingItemType.NavigationItem
+    ),
+    SearchableSettingItem(
+        id = "eye_saver",
+        titleRes = R.string.eye_saver_title,
+        descRes = R.string.eye_saver_desc,
+        sectionId = "appearance",
+        sectionTitleRes = R.string.appearance_section_title,
+        icon = Icons.Default.Visibility,
+        itemType = SettingItemType.SwitchItem(
+            isChecked = { it.eyeSaverEnabled.value },
+            onToggle = { vm, checked -> vm.setEyeSaverEnabled(checked) }
+        )
+    ),
+    SearchableSettingItem(
+        id = "contact_with_me",
+        titleRes = R.string.contact_with_me_title,
+        descRes = R.string.whatsapp_tap_to_open,
+        sectionId = "about",
+        sectionTitleRes = R.string.about_section_title,
+        icon = Icons.Default.Chat,
+        itemType = SettingItemType.NavigationItem
+    ),
+    SearchableSettingItem(
         id = "theme",
         titleRes = R.string.theme_title,
         customDesc = "Select light, dark, or system theme",
@@ -60,7 +90,7 @@ val allSearchableSettings = listOf(
     SearchableSettingItem(
         id = "language",
         titleRes = R.string.language_title,
-        descRes = R.string.language_desc,
+        customDesc = "Choose English or বাংলা (Bangla)",
         sectionId = "appearance",
         sectionTitleRes = R.string.appearance_section_title,
         icon = Icons.Default.Language,
@@ -591,24 +621,6 @@ val allSearchableSettings = listOf(
     ),
 
     // About
-    SearchableSettingItem(
-        id = "check_updates",
-        titleRes = R.string.auto_update_check_title,
-        descRes = R.string.auto_update_check_desc,
-        sectionId = "about",
-        sectionTitleRes = R.string.about_section_title,
-        icon = Icons.Default.SystemUpdate,
-        itemType = SettingItemType.NavigationItem
-    ),
-    SearchableSettingItem(
-        id = "support_development",
-        titleRes = R.string.support_development_title,
-        descRes = R.string.support_development_desc,
-        sectionId = "about",
-        sectionTitleRes = R.string.about_section_title,
-        icon = Icons.Default.VolunteerActivism,
-        itemType = SettingItemType.NavigationItem
-    ),
     SearchableSettingItem(
         id = "libraries",
         titleRes = R.string.open_source_licenses_title,

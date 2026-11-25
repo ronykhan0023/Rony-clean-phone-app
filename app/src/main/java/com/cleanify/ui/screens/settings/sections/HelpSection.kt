@@ -74,11 +74,12 @@ fun HelpSection(
     val permissionEntries = remember {
         listOf(
             PermissionEntry(
-                name = "All Files Access",
+                name = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) "All Files Access" else "Storage Access",
                 desc = "Read and manage files across storage",
                 icon = Icons.Default.Storage,
-                isGranted = PermissionManager.hasAllFilesAccess(),
-                settingsAction = PermissionManager::createAllFilesAccessIntent
+                isGranted = PermissionManager.hasAllFilesAccess(context),
+                settingsAction = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) PermissionManager::createAllFilesAccessIntent else null,
+                requestPermission = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) Manifest.permission.WRITE_EXTERNAL_STORAGE else null
             ),
             PermissionEntry(
                 name = "Notifications",

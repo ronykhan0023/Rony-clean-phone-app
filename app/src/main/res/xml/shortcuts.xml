@@ -9,7 +9,7 @@
         android:shortcutDisabledMessage="@string/shortcut_disabled">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.cleanify"
+            android:targetPackage="com.ronycleanphone.app"
             android:targetClass="com.cleanify.ui.MainActivity"
             android:data="app://com.cleanify/empty_cleaner" />
     </shortcut>
@@ -22,7 +22,7 @@
         android:shortcutDisabledMessage="@string/shortcut_disabled">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.cleanify"
+            android:targetPackage="com.ronycleanphone.app"
             android:targetClass="com.cleanify.ui.MainActivity"
             android:data="app://com.cleanify/duplicates_graph" />
     </shortcut>
@@ -35,7 +35,7 @@
         android:shortcutDisabledMessage="@string/shortcut_disabled">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.cleanify"
+            android:targetPackage="com.ronycleanphone.app"
             android:targetClass="com.cleanify.ui.MainActivity"
             android:data="app://com.cleanify/storage_analysis" />
     </shortcut>
@@ -48,7 +48,7 @@
         android:shortcutDisabledMessage="@string/shortcut_disabled">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.cleanify"
+            android:targetPackage="com.ronycleanphone.app"
             android:targetClass="com.cleanify.ui.MainActivity"
             android:data="app://com.cleanify/recycle_bin" />
     </shortcut>

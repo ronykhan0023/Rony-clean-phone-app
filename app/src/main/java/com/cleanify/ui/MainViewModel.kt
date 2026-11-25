@@ -88,6 +88,27 @@ class MainViewModel @Inject constructor(
             initialValue = predefinedAccentColors.first().key
         )
 
+    val eyeSaverEnabled: StateFlow<Boolean> = preferencesRepository.eyeSaverEnabledFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false
+        )
+
+    val eyeSaverIntensity: StateFlow<Float> = preferencesRepository.eyeSaverIntensityFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0.35f
+        )
+
+    val whatsappContactNumber: StateFlow<String> = preferencesRepository.whatsappContactNumberFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = PreferencesRepository.DEFAULT_WHATSAPP_NUMBER
+        )
+
     val updateCheckInterval: StateFlow<com.cleanify.data.repository.UpdateCheckInterval> = preferencesRepository.updateCheckIntervalFlow
         .stateIn(
             scope = viewModelScope,

@@ -1,8 +1,5 @@
 package com.cleanify.ui.screens.settings
 
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -19,8 +16,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.core.graphics.drawable.toBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -57,7 +52,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.cleanify.R
+import com.cleanify.data.repository.AppLocale
 import com.cleanify.data.repository.DuplicateScanScope
+import com.cleanify.data.repository.PreferencesRepository
 import com.cleanify.ui.components.AppDialog
 import com.cleanify.ui.components.BackNavigationIcon
 import com.cleanify.ui.components.FolderSearchDialog
@@ -65,11 +62,17 @@ import com.cleanify.ui.screens.settings.sections.*
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import com.cleanify.ui.components.CleanifySearchBar
+import com.cleanify.ui.theme.isDark
 import com.cleanify.util.Formatters
+import com.cleanify.util.WhatsAppLauncher
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import java.io.File
@@ -170,8 +173,6 @@ fun SettingsScreen(
     val importFavoritesLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri -> uri?.let { viewModel.importTargetFavorites(it) } }
-
-    var showFundingDialog by remember { mutableStateOf(false) }
 
     val pageTitle = currentPage?.let { id ->
         when (id) {
@@ -299,8 +300,7 @@ fun SettingsScreen(
                                 )
                                 "about" -> AboutSection(
                                     viewModel = viewModel,
-                                    onNavigateToLibraries = onNavigateToLibraries,
-                                    onShowFunding = { showFundingDialog = true }
+                                    onNavigateToLibraries = onNavigateToLibraries
                                 )
                                 else -> SettingsMainMenu(
                                     categories = categories,
@@ -329,8 +329,6 @@ fun SettingsScreen(
             }
         }
     }
-
-    if (showFundingDialog) FundingDialog(onDismiss = { showFundingDialog = false })
 
     if (uiState.showUnindexedFilesDialog) {
         UnindexedFilesDialog(
@@ -646,6 +644,251 @@ private fun SettingsMainMenu(
                 }
             }
         } else {
+            val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+            val currentLocale by viewModel.currentLocale.collectAsStateWithLifecycle()
+            val eyeSaverEnabled by viewModel.eyeSaverEnabled.collectAsStateWithLifecycle()
+            val isDarkActive = currentTheme.isDark
+            val context = LocalContext.current
+            var showLanguageMenu by remember { mutableStateOf(false) }
+
+            // Display & Comfort Quick Controls (Dark Mode + Eye Saver + Language)
+            FrostedSettingsGroup(title = stringResource(R.string.display_modes_section_header)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { viewModel.setDarkModeEnabled(!isDarkActive) }
+                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(46.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(MaterialTheme.colorScheme.primaryContainer),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = if (isDarkActive) Icons.Default.DarkMode else Icons.Default.LightMode,
+                            contentDescription = stringResource(R.string.dark_mode_title),
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                    Spacer(Modifier.width(14.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.dark_mode_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            text = stringResource(R.string.dark_mode_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Switch(
+                        checked = isDarkActive,
+                        onCheckedChange = { viewModel.setDarkModeEnabled(it) },
+                        modifier = Modifier.testTag("dark_mode_switch")
+                    )
+                }
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 14.dp),
+                    thickness = 0.5.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.25f)
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { viewModel.setEyeSaverEnabled(!eyeSaverEnabled) }
+                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(46.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(
+                                if (eyeSaverEnabled) Color(0xFFFF9800).copy(alpha = 0.22f)
+                                else MaterialTheme.colorScheme.primaryContainer
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.RemoveRedEye,
+                            contentDescription = stringResource(R.string.eye_saver_title),
+                            tint = if (eyeSaverEnabled) Color(0xFFE65100) else MaterialTheme.colorScheme.onPrimaryContainer,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                    Spacer(Modifier.width(14.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.eye_saver_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            text = stringResource(R.string.eye_saver_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Switch(
+                        checked = eyeSaverEnabled,
+                        onCheckedChange = { viewModel.setEyeSaverEnabled(it) },
+                        modifier = Modifier.testTag("eye_saver_switch")
+                    )
+                }
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 14.dp),
+                    thickness = 0.5.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.25f)
+                )
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { showLanguageMenu = true }
+                            .padding(horizontal = 14.dp, vertical = 10.dp)
+                            .testTag("quick_language_row"),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(46.dp)
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(MaterialTheme.colorScheme.primaryContainer),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Language,
+                                contentDescription = stringResource(R.string.language_title),
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                        Spacer(Modifier.width(14.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = stringResource(R.string.language_title),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Spacer(Modifier.height(2.dp))
+                            Text(
+                                text = getAppLocaleDisplayName(currentLocale),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.primary,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        Icon(
+                            imageVector = Icons.Default.UnfoldMore,
+                            contentDescription = stringResource(R.string.language_title),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = showLanguageMenu,
+                        onDismissRequest = { showLanguageMenu = false },
+                        shape = RoundedCornerShape(18.dp),
+                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                    ) {
+                        AppLocale.entries.forEach { localeOption ->
+                            val isSelected = localeOption == currentLocale
+                            DropdownMenuItem(
+                                text = {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(
+                                            text = getAppLocaleDisplayName(localeOption),
+                                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        if (isSelected) {
+                                            Spacer(Modifier.width(12.dp))
+                                            Icon(
+                                                imageVector = Icons.Default.Check,
+                                                contentDescription = null,
+                                                tint = MaterialTheme.colorScheme.primary,
+                                                modifier = Modifier.size(18.dp)
+                                            )
+                                        }
+                                    }
+                                },
+                                onClick = {
+                                    viewModel.setAppLocale(localeOption)
+                                    showLanguageMenu = false
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Contact with me (WhatsApp icon only — number stays hidden and opens WhatsApp directly)
+            FrostedSettingsGroup(title = stringResource(R.string.whatsapp_contact_section_header)) {
+                val openWhatsApp: () -> Unit = {
+                    WhatsAppLauncher.openWhatsAppChat(
+                        context,
+                        PreferencesRepository.DEFAULT_WHATSAPP_NUMBER
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = openWhatsApp)
+                        .padding(horizontal = 14.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Surface(
+                        onClick = openWhatsApp,
+                        shape = RoundedCornerShape(14.dp),
+                        color = Color(0xFF25D366),
+                        modifier = Modifier
+                            .size(48.dp)
+                            .testTag("whatsapp_contact_icon_button")
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_whatsapp),
+                                contentDescription = stringResource(R.string.contact_with_me_title),
+                                tint = Color.White,
+                                modifier = Modifier.size(26.dp)
+                            )
+                        }
+                    }
+                    Spacer(Modifier.width(14.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.contact_with_me_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            text = stringResource(R.string.whatsapp_tap_to_open),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                    )
+                }
+            }
+
             // 2. Normal grouped categories
             val preferenceCategories = remember(filteredCategories) {
                 filteredCategories.filter { it.id in listOf("appearance", "sorting") }
@@ -798,234 +1041,5 @@ private fun UnindexedFilesDialog(filePaths: List<String>, totalUnindexedCount: I
             }
         },
         buttons = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) } }
-    )
-}
-
-@Composable
-private fun FundingDialog(onDismiss: () -> Unit) {
-    val clipboard = androidx.compose.ui.platform.LocalClipboard.current
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val upiId = "raghavans5711@okicici"
-
-    // Detect installed UPI payment apps
-    val installedUpiApps = remember {
-        val upiIntent = Intent(Intent.ACTION_VIEW, Uri.parse("upi://pay"))
-        try {
-            val pm = context.packageManager
-            pm.queryIntentActivities(upiIntent, PackageManager.MATCH_DEFAULT_ONLY).mapNotNull { resolveInfo ->
-                val pkg = resolveInfo.activityInfo.packageName
-                val name = resolveInfo.loadLabel(pm).toString()
-                val iconBitmap = try {
-                    val drawable = resolveInfo.loadIcon(pm)
-                    drawable.toBitmap(width = 96, height = 96).asImageBitmap()
-                } catch (e: Exception) {
-                    null
-                }
-                InstalledPaymentApp(name = name, packageName = pkg, iconBitmap = iconBitmap)
-            }.distinctBy { it.packageName }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    }
-
-    val launchUpi: (String?) -> Unit = { targetPackage ->
-        val uri = Uri.parse("upi://pay?pa=$upiId&pn=Raghav%20S&mc=&tid=&tr=&tn=Support%20Cleanify%20Development&cu=INR")
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        if (targetPackage != null) {
-            intent.setPackage(targetPackage)
-        }
-        try {
-            context.startActivity(if (targetPackage != null) intent else Intent.createChooser(intent, "Pay via UPI"))
-        } catch (e: Exception) {
-            android.widget.Toast.makeText(context, "Could not open UPI app: ${e.message}", android.widget.Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    AppDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.Favorite, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                Spacer(Modifier.width(8.dp))
-                Text(stringResource(R.string.funding_dialog_title), fontWeight = FontWeight.Bold)
-            }
-        },
-        text = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    stringResource(R.string.funding_dialog_body),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(Modifier.height(14.dp))
-
-                // Compact QR Code Container (without outer padding or header text)
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = androidx.compose.ui.graphics.Color.White,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
-                    shadowElevation = 2.dp
-                ) {
-                    Image(
-                        painter = androidx.compose.ui.res.painterResource(R.drawable.payment_qr),
-                        contentDescription = "Payment QR",
-                        modifier = Modifier
-                            .size(190.dp)
-                            .clip(RoundedCornerShape(16.dp)),
-                        contentScale = androidx.compose.ui.layout.ContentScale.Fit
-                    )
-                }
-
-                Spacer(Modifier.height(14.dp))
-
-                // Understated Name & UPI ID Container with Dedicated Copy Button
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 14.dp, vertical = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = "Raghav S",
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Spacer(Modifier.height(2.dp))
-                            Text(
-                                text = upiId,
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-
-                        Button(
-                            onClick = {
-                                val cm = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                                cm.setPrimaryClip(android.content.ClipData.newPlainText("UPI ID", upiId))
-                                android.widget.Toast.makeText(context, "UPI ID copied: $upiId", android.widget.Toast.LENGTH_SHORT).show()
-                            },
-                            shape = RoundedCornerShape(12.dp),
-                            contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        ) {
-                            Icon(
-                                Icons.Default.ContentCopy,
-                                contentDescription = null,
-                                modifier = Modifier.size(15.dp)
-                            )
-                            Spacer(Modifier.width(6.dp))
-                            Text("Copy", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
-                        }
-                    }
-                }
-
-                // Installed Payment Apps as clean consistent rows
-                if (installedUpiApps.isNotEmpty()) {
-                    Spacer(Modifier.height(16.dp))
-                    Text(
-                        text = "Pay with Installed App",
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp, vertical = 4.dp)
-                    )
-                    Spacer(Modifier.height(6.dp))
-
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        installedUpiApps.forEach { app ->
-                            Surface(
-                                onClick = { launchUpi(app.packageName) },
-                                shape = RoundedCornerShape(14.dp),
-                                color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)),
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 14.dp, vertical = 10.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    if (app.iconBitmap != null) {
-                                        Image(
-                                            bitmap = app.iconBitmap,
-                                            contentDescription = app.name,
-                                            modifier = Modifier
-                                                .size(36.dp)
-                                                .clip(RoundedCornerShape(8.dp))
-                                        )
-                                    } else {
-                                        Surface(
-                                            shape = RoundedCornerShape(8.dp),
-                                            color = MaterialTheme.colorScheme.secondaryContainer,
-                                            modifier = Modifier.size(36.dp)
-                                        ) {
-                                            Box(contentAlignment = Alignment.Center) {
-                                                Icon(
-                                                    Icons.Default.Payment,
-                                                    contentDescription = null,
-                                                    modifier = Modifier.size(20.dp),
-                                                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                                                )
-                                            }
-                                        }
-                                    }
-                                    Spacer(Modifier.width(14.dp))
-                                    Text(
-                                        text = app.name,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        fontWeight = FontWeight.Medium,
-                                        modifier = Modifier.weight(1f)
-                                    )
-                                    Icon(
-                                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                        contentDescription = "Open ${app.name}",
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(14.dp))
-
-                Button(
-                    onClick = { launchUpi(null) },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(14.dp)
-                ) {
-                    Icon(Icons.Default.Payment, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Open UPI App")
-                }
-            }
-        },
-        buttons = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) }
-        }
     )
 }

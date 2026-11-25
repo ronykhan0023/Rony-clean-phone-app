@@ -21,6 +21,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.media.MediaScannerConnection
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -426,15 +427,18 @@ class DirectMediaRepositoryImpl @Inject constructor(
 
     private suspend fun getMediaStoreDataForBuckets(bucketPaths: List<String>?): Map<String, MediaStoreCache> = withContext(Dispatchers.IO) {
         val cacheMap = mutableMapOf<String, MediaStoreCache>()
-        val projection = arrayOf(
+        val baseProjection = mutableListOf(
             MediaStore.Files.FileColumns._ID, MediaStore.Files.FileColumns.DATA,
             MediaStore.Files.FileColumns.DISPLAY_NAME, MediaStore.Files.FileColumns.MIME_TYPE,
             MediaStore.Files.FileColumns.DATE_ADDED, MediaStore.Files.FileColumns.DATE_MODIFIED,
             MediaStore.Files.FileColumns.SIZE, MediaStore.Files.FileColumns.BUCKET_ID,
             MediaStore.Files.FileColumns.BUCKET_DISPLAY_NAME, MediaStore.Files.FileColumns.MEDIA_TYPE,
-            MediaStore.Files.FileColumns.WIDTH, MediaStore.Files.FileColumns.HEIGHT,
-            MediaStore.MediaColumns.ORIENTATION
+            MediaStore.Files.FileColumns.WIDTH, MediaStore.Files.FileColumns.HEIGHT
         )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            baseProjection.add(MediaStore.MediaColumns.ORIENTATION)
+        }
+        val projection = baseProjection.toTypedArray()
 
         val selection: String?
         val selectionArgs: Array<String>?
@@ -494,7 +498,11 @@ class DirectMediaRepositoryImpl @Inject constructor(
                 val mediaTypeColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE)
                 val widthColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.WIDTH)
                 val heightColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.HEIGHT)
-                val orientationColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.ORIENTATION)
+                val orientationColumn = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    cursor.getColumnIndex(MediaStore.MediaColumns.ORIENTATION)
+                } else {
+                    -1
+                }
 
                 while (cursor.moveToNext()) {
                     val path = cursor.getString(dataColumn)
@@ -513,7 +521,7 @@ class DirectMediaRepositoryImpl @Inject constructor(
                                 isAudio = mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_AUDIO,
                                 width = cursor.getInt(widthColumn),
                                 height = cursor.getInt(heightColumn),
-                                orientation = cursor.getInt(orientationColumn)
+                                orientation = if (orientationColumn >= 0) cursor.getInt(orientationColumn) else 0
                             )
                     }
                 }
@@ -572,25 +580,29 @@ class DirectMediaRepositoryImpl @Inject constructor(
 
             when (category) {
                 FileCategory.Video -> {
+                    val retriever = MediaMetadataRetriever()
                     try {
-                        MediaMetadataRetriever().use { retriever ->
-                            retriever.setDataSource(file.absolutePath)
-                            val videoWidth = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)?.toIntOrNull() ?: 0
-                            val videoHeight = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)?.toIntOrNull() ?: 0
-                            val rotation = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION)?.toIntOrNull() ?: 0
-                            val durationMs = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull() ?: 0
+                        retriever.setDataSource(file.absolutePath)
+                        val videoWidth = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)?.toIntOrNull() ?: 0
+                        val videoHeight = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)?.toIntOrNull() ?: 0
+                        val rotation = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION)?.toIntOrNull() ?: 0
+                        val durationMs = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull() ?: 0
 
-                            if (rotation == 90 || rotation == 270) {
-                                width = videoHeight
-                                height = videoWidth
-                            } else {
-                                width = videoWidth
-                                height = videoHeight
-                            }
-                            duration = durationMs
+                        if (rotation == 90 || rotation == 270) {
+                            width = videoHeight
+                            height = videoWidth
+                        } else {
+                            width = videoWidth
+                            height = videoHeight
                         }
+                        duration = durationMs
                     } catch (e: Exception) {
                         Log.e(dimensionlogTag, "Failed to get metadata for video: ${file.path}", e)
+                    } finally {
+                        try {
+                            retriever.release()
+                        } catch (_: Exception) {
+                        }
                     }
                 }
                 FileCategory.Image -> {
@@ -605,14 +617,18 @@ class DirectMediaRepositoryImpl @Inject constructor(
                     }
                 }
                 FileCategory.Audio -> {
+                    val retriever = MediaMetadataRetriever()
                     try {
-                        MediaMetadataRetriever().use { retriever ->
-                            retriever.setDataSource(file.absolutePath)
-                            val durationMs = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull() ?: 0
-                            duration = durationMs
-                        }
+                        retriever.setDataSource(file.absolutePath)
+                        val durationMs = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull() ?: 0
+                        duration = durationMs
                     } catch (e: Exception) {
                         Log.e(dimensionlogTag, "Failed to get metadata for audio: ${file.path}", e)
+                    } finally {
+                        try {
+                            retriever.release()
+                        } catch (_: Exception) {
+                        }
                     }
                 }
                 else -> { /* Documents/Other: no dimensions needed */ }

@@ -19,10 +19,6 @@ ksp {
 android {
     namespace = "com.cleanify"
     compileSdk = 36
-
-    kotlin {
-        jvmToolchain(17)
-    }
     signingConfigs {
         create("release") {
             val keystorePropsFile = rootProject.file("keystore.properties")
@@ -46,6 +42,12 @@ android {
                 keyPassword = keyPasswordProp
             }
         }
+        create("debugConfig") {
+            storeFile = file("${rootDir}/debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
     }
 
     sourceSets {
@@ -53,8 +55,8 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.cleanify"
-        minSdk = 29
+        applicationId = "com.ronycleanphone.app"
+        minSdk = 28
         targetSdk = 36
         versionCode = 20
         versionName = "3.2.0"
@@ -62,14 +64,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
-        }
-
-        val abiFilter = project.findProperty("abiFilter") as? String
-        if (abiFilter != null) {
-            val filter = abiFilter
-            ndk {
-                abiFilters.add(filter)
-            }
         }
     }
 
@@ -86,15 +80,7 @@ android {
         debug {
             isMinifyEnabled = false
             isShrinkResources = false
-        }
-    }
-
-    splits {
-        abi {
-            isEnable = true
-            reset()
-            include("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
-            isUniversalApk = true
+            signingConfig = signingConfigs.getByName("debugConfig")
         }
     }
 
@@ -106,15 +92,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-
-    ndkVersion = "30.0.14904198"
-
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.22.1"
-        }
     }
 
     packaging {
@@ -134,27 +111,11 @@ android {
     }
 }
 
-androidComponents {
-    onVariants { variant ->
-        variant.outputs.forEach { output ->
-            val appName = "Cleanify"
-            val versionName = output.versionName.get()
-            val buildType = variant.buildType
-            val customAbi: String? by project
-            val abiSuffix = if (customAbi != null) "-$customAbi" else ""
 
-            val baseName = "$appName-v$versionName$abiSuffix-$buildType"
-            val filters = output.filters
-            val abiFilter = filters.find { it.filterType.name.equals("ABI", ignoreCase = true) }?.identifier
-            val finalName = if (abiFilter != null) "$baseName-$abiFilter.apk" else "$baseName.apk"
-
-            (output as? com.android.build.api.variant.impl.VariantOutputImpl)?.outputFileName?.set(finalName)
-        }
-    }
-}
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
 

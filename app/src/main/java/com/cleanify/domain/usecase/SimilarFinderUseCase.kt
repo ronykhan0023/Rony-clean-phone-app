@@ -17,12 +17,13 @@
 
 package com.cleanify.domain.usecase
 
+import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaMetadataRetriever
+import android.os.Build
 import android.util.Log
-import android.util.Size
 import androidx.core.graphics.scale
 import com.cleanify.data.db.dao.PHashDao
 import com.cleanify.data.db.entity.PHashCache
@@ -34,6 +35,7 @@ import com.cleanify.data.repository.SimilarityThresholdLevel
 import com.cleanify.domain.model.SimilarGroup
 import com.cleanify.domain.repository.DuplicatesRepository
 import com.cleanify.domain.util.PHashUtil
+import com.cleanify.util.ThumbnailCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -182,8 +184,14 @@ class SimilarFinderUseCase @Inject constructor(
         val newHashes = mutableListOf<PHashCache>()
         val skippedPaths = mutableListOf<String>()
 
-        val CHUNK_SIZE = (Runtime.getRuntime().availableProcessors() * 2).coerceAtLeast(1)
-        items.chunked(CHUNK_SIZE).forEach { chunk ->
+        val isLowRam = (context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager)?.isLowRamDevice == true
+        val processors = Runtime.getRuntime().availableProcessors()
+        val chunkSize = if (isLowRam || Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            processors.coerceIn(2, 4)
+        } else {
+            (processors * 2).coerceAtLeast(1)
+        }
+        items.chunked(chunkSize).forEach { chunk ->
             val results = chunk.map { mediaItem ->
                 async {
                     try {
@@ -426,7 +434,14 @@ class SimilarFinderUseCase @Inject constructor(
 
     private fun getThumbnail(mediaItem: MediaItem, size: Int): Bitmap? {
         return try {
-            context.contentResolver.loadThumbnail(mediaItem.uri, Size(size, size), null)
+            ThumbnailCompat.loadThumbnail(
+                context = context,
+                uri = mediaItem.uri,
+                sizePx = size,
+                isVideo = mediaItem.isVideo,
+                filePath = mediaItem.id,
+                preferredConfig = Bitmap.Config.RGB_565
+            )
         } catch (e: Exception) {
             Log.w(TAG, "Thumbnail generation failed for ${mediaItem.id}. Message: ${e.message}")
             null
@@ -448,9 +463,12 @@ class SimilarFinderUseCase @Inject constructor(
             )
 
             for (timeUs in frameTimestamps) {
-                retriever.getFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)?.let {
-                    frameList.add(it)
+                val frame = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                    retriever.getScaledFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST_SYNC, 256, 256)
+                } else {
+                    retriever.getFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
                 }
+                frame?.let { frameList.add(it) }
             }
         } catch (e: Exception) {
             Log.e(TAG, "Frame extraction failed for ${mediaItem.id}", e)

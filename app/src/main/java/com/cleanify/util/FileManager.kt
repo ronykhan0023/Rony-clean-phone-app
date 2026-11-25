@@ -164,7 +164,7 @@ object FileManager {
         val storageManager = context.getSystemService(Context.STORAGE_SERVICE) as? android.os.storage.StorageManager
         if (storageManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             for (sv in storageManager.storageVolumes) {
-                val dir = sv.directory ?: continue
+                val dir = StorageVolumeCompat.resolveDirectory(sv) ?: continue
                 val uuid = sv.uuid
                 if (uuid != null && uuid.equals(volumeType, ignoreCase = true)) {
                     return "${dir.absolutePath}/$path"

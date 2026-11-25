@@ -755,22 +755,10 @@ private fun DefaultTopAppBar(
 ) {
     TopAppBar(
         title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                androidx.compose.foundation.Image(
-                    painter = androidx.compose.ui.res.painterResource(R.drawable.app_logo),
-                    contentDescription = null,
-                    modifier = Modifier.size(32.dp),
-                    contentScale = androidx.compose.ui.layout.ContentScale.Fit
-                )
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            com.cleanify.ui.theme.BrandWordmark(
+                text = stringResource(R.string.app_name),
+                fontSize = 21.sp
+            )
         },
         actions = {
             if (activeTool == HomeTool.FOLDERS) {

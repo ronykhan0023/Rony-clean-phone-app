@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cleanify.ui.screens.settings.SettingsViewModel
+import com.cleanify.util.StorageVolumeCompat
 
 /**
  * Settings section for File & Storage Management.
@@ -41,7 +42,7 @@ fun StorageManagementSection(
         val list = mutableListOf<StorageVolumeInfo>()
         val sm = context.getSystemService(Context.STORAGE_SERVICE) as? StorageManager
         sm?.storageVolumes?.forEach { sv ->
-            val dir = sv.directory
+            val dir = StorageVolumeCompat.resolveDirectory(sv)
             if (dir != null && dir.isDirectory && dir.canRead()) {
                 val stat = StatFs(dir.absolutePath)
                 val total = stat.blockSizeLong * stat.blockCountLong

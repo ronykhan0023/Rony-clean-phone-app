@@ -18,5 +18,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Cleanify"
+rootProject.name = "Rony Clean Phone"
 include(":app")

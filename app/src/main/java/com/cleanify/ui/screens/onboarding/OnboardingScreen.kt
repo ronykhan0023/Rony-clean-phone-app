@@ -3,6 +3,8 @@ package com.cleanify.ui.screens.onboarding
 import android.Manifest
 import android.os.Build
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -66,10 +68,18 @@ fun OnboardingScreen(
     onComplete: () -> Unit,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
-    var hasAllFilesAccess by remember { mutableStateOf(PermissionManager.hasAllFilesAccess()) }
+    val context = LocalContext.current
+    var hasAllFilesAccess by remember { mutableStateOf(PermissionManager.hasAllFilesAccess(context)) }
     var showPermissionScreen by remember { mutableStateOf(false) }
     var showCloseDialog by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+
+    val legacyStoragePermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { _ ->
+        val granted = PermissionManager.hasAllFilesAccess(context)
+        hasAllFilesAccess = granted
+        if (!granted) showPermissionScreen = true
+    }
 
     val storagePermissionLauncher = remember {
         try {
@@ -90,7 +100,7 @@ fun OnboardingScreen(
     DisposableEffect(lifecycleOwner) {
         val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
             if (event == androidx.lifecycle.Lifecycle.Event.ON_RESUME) {
-                val newPermissionState = PermissionManager.hasAllFilesAccess()
+                val newPermissionState = PermissionManager.hasAllFilesAccess(context)
                 if (newPermissionState != hasAllFilesAccess) {
                     hasAllFilesAccess = newPermissionState
                     if (newPermissionState) showPermissionScreen = false
@@ -118,11 +128,9 @@ fun OnboardingScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
+            com.cleanify.ui.theme.BrandWordmark(
                 text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                fontSize = 22.sp
             )
 
             if (!isLastPage) {
@@ -144,13 +152,20 @@ fun OnboardingScreen(
         if (showPermissionScreen) {
             PermissionRequiredScreen(
                 onGrant = {
-                    storagePermissionLauncher?.let { launcher ->
-                        PermissionManager.requestAllFilesAccess(context, launcher)
-                    } ?: run {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        storagePermissionLauncher?.let { launcher ->
+                            PermissionManager.requestAllFilesAccess(context, launcher)
+                        } ?: run {
+                            try {
+                                context.startActivity(PermissionManager.createAllFilesAccessIntent(context))
+                            } catch (_: Exception) { }
+                        }
+                    } else {
                         try {
-                            val intent = PermissionManager.createAllFilesAccessIntent(context)
-                            if (intent != null) context.startActivity(intent)
-                        } catch (_: Exception) { }
+                            context.startActivity(PermissionManager.createAllFilesAccessIntent(context))
+                        } catch (_: Exception) {
+                            legacyStoragePermissionLauncher.launch(PermissionManager.LEGACY_STORAGE_PERMISSIONS)
+                        }
                     }
                 },
                 onClose = { showCloseDialog = true }
@@ -242,9 +257,13 @@ fun OnboardingScreen(
                 if (!hasAllFilesAccess) {
                     Button(
                         onClick = {
-                            storagePermissionLauncher?.let { launcher ->
-                                PermissionManager.requestAllFilesAccess(context, launcher)
-                            } ?: run { showPermissionScreen = true }
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                storagePermissionLauncher?.let { launcher ->
+                                    PermissionManager.requestAllFilesAccess(context, launcher)
+                                } ?: run { showPermissionScreen = true }
+                            } else {
+                                legacyStoragePermissionLauncher.launch(PermissionManager.LEGACY_STORAGE_PERMISSIONS)
+                            }
                         },
                         modifier = Modifier.fillMaxWidth().height(54.dp),
                         shape = RoundedCornerShape(16.dp)

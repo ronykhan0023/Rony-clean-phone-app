@@ -125,7 +125,7 @@ enum class UnselectScanScope {
 enum class AppLocale(val tag: String?) {
     SYSTEM(null),
     ENGLISH("en"),
-    ITALIAN("it")
+    BANGLA("bn")
 }
 
 enum class UpdateCheckInterval(val hours: Long, val label: String, val shortLabel: String) {
@@ -157,6 +157,7 @@ class PreferencesRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     companion object {
+        const val DEFAULT_WHATSAPP_NUMBER = "+8801637360712"
         private val DEFAULT_ALBUM_CREATION_PATH =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath
         private val KEY_DEFAULT_ALBUM_PATH = stringPreferencesKey("default_album_creation_path")
@@ -246,6 +247,9 @@ class PreferencesRepository @Inject constructor(
         val LAST_SEEN_VERSION_CODE = intPreferencesKey("last_seen_version_code")
         val SHAKE_TO_FEEDBACK_ENABLED = booleanPreferencesKey("shake_to_feedback_enabled")
         val SCREENSHOT_TO_FEEDBACK_ENABLED = booleanPreferencesKey("screenshot_to_feedback_enabled")
+        val EYE_SAVER_ENABLED = booleanPreferencesKey("eye_saver_enabled")
+        val EYE_SAVER_INTENSITY = floatPreferencesKey("eye_saver_intensity")
+        val WHATSAPP_CONTACT_NUMBER = stringPreferencesKey("whatsapp_contact_number")
     }
 
     // ── Boolean Preference instances ─────────────────────────────────────────
@@ -293,6 +297,7 @@ class PreferencesRepository @Inject constructor(
     private val recycleBinSkipTrashJunkPref = Preference(context.dataStore, PreferencesKeys.RECYCLE_BIN_SKIP_TRASH_JUNK, false)
     private val immersiveModePref = Preference(context.dataStore, PreferencesKeys.IMMERSIVE_MODE, false)
     private val startVideosUnmutedPref = Preference(context.dataStore, PreferencesKeys.START_VIDEOS_UNMUTED, true)
+    private val eyeSaverEnabledPref = Preference(context.dataStore, PreferencesKeys.EYE_SAVER_ENABLED, false)
 
     // ── Enum Preference instances ────────────────────────────────────────────
     // Each replaces ~10 lines of flow+setter boilerplate with 1 line.
@@ -475,6 +480,16 @@ class PreferencesRepository @Inject constructor(
     val recycleBinStorageLocationFlow: Flow<String> = context.dataStore.data
         .map { preferences -> preferences[PreferencesKeys.RECYCLE_BIN_STORAGE_LOCATION] ?: "external" }
 
+    val eyeSaverIntensityFlow: Flow<Float> = context.dataStore.data
+        .map { preferences -> (preferences[PreferencesKeys.EYE_SAVER_INTENSITY] ?: 0.35f).coerceIn(0.10f, 0.70f) }
+
+    val whatsappContactNumberFlow: Flow<String> = context.dataStore.data
+        .map { preferences ->
+            preferences[PreferencesKeys.WHATSAPP_CONTACT_NUMBER]
+                ?.takeIf { it.isNotBlank() }
+                ?: DEFAULT_WHATSAPP_NUMBER
+        }
+
     // ── Boolean flows: delegated to Preference instances ──────────────────────
 
     val shakeToFeedbackFlow: Flow<Boolean> = shakeToFeedbackPref.flow
@@ -519,6 +534,7 @@ class PreferencesRepository @Inject constructor(
     val recycleBinSkipTrashJunkFlow: Flow<Boolean> = recycleBinSkipTrashJunkPref.flow
     val immersiveModeFlow: Flow<Boolean> = immersiveModePref.flow
     val startVideosUnmutedFlow: Flow<Boolean> = startVideosUnmutedPref.flow
+    val eyeSaverEnabledFlow: Flow<Boolean> = eyeSaverEnabledPref.flow
 
     // ── Non-boolean setters (unchanged) ──────────────────────────────────────
 
@@ -867,6 +883,17 @@ class PreferencesRepository @Inject constructor(
     suspend fun setRecycleBinSkipTrashJunk(enabled: Boolean) = recycleBinSkipTrashJunkPref.set(enabled)
     suspend fun setImmersiveMode(enabled: Boolean) = immersiveModePref.set(enabled)
     suspend fun setStartVideosUnmuted(unmuted: Boolean) = startVideosUnmutedPref.set(unmuted)
+    suspend fun setEyeSaverEnabled(enabled: Boolean) = eyeSaverEnabledPref.set(enabled)
+    suspend fun setEyeSaverIntensity(intensity: Float) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.EYE_SAVER_INTENSITY] = intensity.coerceIn(0.10f, 0.70f)
+        }
+    }
+    suspend fun setWhatsappContactNumber(number: String) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.WHATSAPP_CONTACT_NUMBER] = number.trim()
+        }
+    }
     suspend fun setUpdateCheckInterval(interval: UpdateCheckInterval) = updateCheckIntervalPref.set(interval)
     suspend fun setLastSeenVersionCode(versionCode: Int) {
         context.dataStore.edit { preferences ->

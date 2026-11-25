@@ -21,6 +21,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.cleanify.ui.theme.AppTheme
+import com.cleanify.ui.theme.EyeSaverOverlay
 import com.cleanify.ui.theme.LocalAppTheme
 
 @Composable
@@ -82,51 +84,54 @@ fun AppDialog(
                 containerColor = cardContainerColor
             )
         ) {
-            Column(
-                modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                title?.let {
-                    it()
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-
-                text?.let {
-                    it()
-                    Spacer(modifier = Modifier.height(24.dp))
-                }
-
-                AnimatedVisibility(visible = showDontAskAgain) {
-                    Column {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onDontAskAgainChanged(!dontAskAgainChecked) },
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(6.dp)
-                        ) {
-                            Checkbox(
-                                checked = dontAskAgainChecked,
-                                onCheckedChange = null,
-                                modifier = Modifier
-                                    .offset(x = (4).dp)
-                            )
-                            Text(
-                                text = "Don't ask again",
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
+            Box {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    title?.let {
+                        it()
                         Spacer(modifier = Modifier.height(16.dp))
                     }
-                }
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    buttons()
+                    text?.let {
+                        it()
+                        Spacer(modifier = Modifier.height(24.dp))
+                    }
+
+                    AnimatedVisibility(visible = showDontAskAgain) {
+                        Column {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { onDontAskAgainChanged(!dontAskAgainChecked) },
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                Checkbox(
+                                    checked = dontAskAgainChecked,
+                                    onCheckedChange = null,
+                                    modifier = Modifier
+                                        .offset(x = (4).dp)
+                                )
+                                Text(
+                                    text = "Don't ask again",
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        buttons()
+                    }
                 }
+                EyeSaverOverlay(modifier = Modifier.matchParentSize())
             }
         }
     }

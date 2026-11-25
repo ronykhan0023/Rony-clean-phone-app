@@ -14,6 +14,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.cleanify.util.StorageVolumeCompat
 import java.util.concurrent.TimeUnit
 
 class CleanerWorker(
@@ -78,7 +79,7 @@ class CleanerWorker(
         val roots = mutableListOf(Environment.getExternalStorageDirectory())
         val storageManager = applicationContext.getSystemService(Context.STORAGE_SERVICE) as StorageManager
         for (sv in storageManager.storageVolumes) {
-            val dir = sv.directory ?: continue
+            val dir = StorageVolumeCompat.resolveDirectory(sv) ?: continue
             if (dir.isDirectory && dir.canRead() && dir !in roots) {
                 roots.add(dir)
             }

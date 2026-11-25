@@ -26,6 +26,7 @@ import com.cleanify.data.db.entity.FileSignatureCache
 import com.cleanify.data.model.MediaItem
 import com.cleanify.domain.model.DuplicateGroup
 import com.cleanify.util.NativeHasher
+import com.cleanify.util.ThumbnailCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
@@ -162,7 +163,14 @@ class DuplicateFinderUseCase @Inject constructor(
 
     private fun getThumbnail(mediaItem: MediaItem, size: Int): Bitmap? {
         return try {
-            context.contentResolver.loadThumbnail(mediaItem.uri, Size(size, size), null)
+            ThumbnailCompat.loadThumbnail(
+                context = context,
+                uri = mediaItem.uri,
+                sizePx = size,
+                isVideo = mediaItem.isVideo,
+                filePath = mediaItem.id,
+                preferredConfig = Bitmap.Config.ARGB_8888
+            )
         } catch (e: Exception) {
             Log.w(TAG, "Thumbnail generation failed for ${mediaItem.id}: ${e.message}")
             null

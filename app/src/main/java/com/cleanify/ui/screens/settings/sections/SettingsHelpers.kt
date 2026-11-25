@@ -20,7 +20,7 @@ import com.cleanify.ui.theme.AppTheme
 fun getAppLocaleDisplayName(locale: AppLocale): String = when (locale) {
     AppLocale.SYSTEM -> stringResource(R.string.language_system)
     AppLocale.ENGLISH -> stringResource(R.string.language_english)
-    AppLocale.ITALIAN -> stringResource(R.string.language_italian)
+    AppLocale.BANGLA -> stringResource(R.string.language_bangla)
 }
 
 @Composable
